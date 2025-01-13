@@ -41,8 +41,10 @@
               <span id="section-title-ar" style="display: none;">{{ page.section_title_ar }}</span>
             </h2>
 
-            <p id="audio-title-en">{{ page.title_en }}</p>
-            <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
+            <p>
+              <span id="audio-title-en">{{ page.title_en }}</span>
+              <span id="audio-title-ar" style="display: none;">{{ page.title_ar }}</span>
+            </p>
           </div>
 
           <!-- English Audio -->
@@ -61,12 +63,6 @@
             </audio>
           </div>
 
-          <div class="jp-progress">
-            <div class="jp-seek-bar">
-              <div class="jp-play-bar"></div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
@@ -76,32 +72,28 @@
 
     <script>
       document.getElementById('toggle-language').addEventListener('click', function() {
-        // Section Titles
-        const sectionTitleEn = document.getElementById('section-title-en');
-        const sectionTitleAr = document.getElementById('section-title-ar');
+        // Elements to toggle
+        const elements = {
+          sectionTitleEn: document.getElementById('section-title-en'),
+          sectionTitleAr: document.getElementById('section-title-ar'),
+          titleEn: document.getElementById('audio-title-en'),
+          titleAr: document.getElementById('audio-title-ar'),
+          audioEn: document.getElementById('audio-en'),
+          audioAr: document.getElementById('audio-ar')
+        };
 
-        // Page Titles
-        const titleEn = document.getElementById('audio-title-en');
-        const titleAr = document.getElementById('audio-title-ar');
+        // Determine current language state
+        const isEnglish = elements.sectionTitleEn.style.display !== 'none';
 
-        // Audio Elements
-        const audioEn = document.getElementById('audio-en');
-        const audioAr = document.getElementById('audio-ar');
+        // Toggle all elements
+        elements.sectionTitleEn.style.display = isEnglish ? 'none' : 'inline';
+        elements.sectionTitleAr.style.display = isEnglish ? 'inline' : 'none';
 
-        // Determine current state
-        const isEnglish = sectionTitleEn.style.display !== 'none';
+        elements.titleEn.style.display = isEnglish ? 'none' : 'inline';
+        elements.titleAr.style.display = isEnglish ? 'inline' : 'none';
 
-        // Toggle Section Titles
-        sectionTitleEn.style.display = isEnglish ? 'none' : 'inline';
-        sectionTitleAr.style.display = isEnglish ? 'inline' : 'none';
-
-        // Toggle Page Titles
-        titleEn.style.display = isEnglish ? 'none' : 'block';
-        titleAr.style.display = isEnglish ? 'block' : 'none';
-
-        // Toggle Audio
-        audioEn.style.display = isEnglish ? 'none' : 'block';
-        audioAr.style.display = isEnglish ? 'block' : 'none';
+        elements.audioEn.style.display = isEnglish ? 'none' : 'block';
+        elements.audioAr.style.display = isEnglish ? 'block' : 'none';
       });
     </script>
 
