@@ -93,13 +93,15 @@
           // Check current state and toggle all elements
           const isEnglish = sectionTitleEn.style.display !== 'none';
 
-          // Synchronize Titles and Audio
+          // Synchronize Section Titles
           sectionTitleEn.style.display = isEnglish ? 'none' : 'inline';
           sectionTitleAr.style.display = isEnglish ? 'inline' : 'none';
 
+          // Synchronize Main Titles
           titleEn.style.display = isEnglish ? 'none' : 'block';
           titleAr.style.display = isEnglish ? 'block' : 'none';
 
+          // Synchronize Audio
           audioEn.style.display = isEnglish ? 'none' : 'block';
           audioAr.style.display = isEnglish ? 'block' : 'none';
         });
