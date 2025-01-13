@@ -486,8 +486,11 @@ Hero images on audio guide stop pages
 
 .post-hero-image {
     width: 100%;
+    //max-height: 300px;
     padding: 0 0;
     margin: 0 auto 0 auto;
+    //height: 150px;
+    //background-color: $background-darker;
     text-align: center;
 
     img {
@@ -509,7 +512,7 @@ Hero images on audio guide stop pages
 Audio Player Styling
 *********************************************/
 
-#jp_container_1 {
+.jp-audio {
     position: relative;
 }
 
@@ -522,6 +525,7 @@ Audio Player Styling
     width: 100%;
 }
 
+
 .audio-player {
     padding: 0 0.25em;
     background: none;
@@ -529,12 +533,15 @@ Audio Player Styling
     margin-right: auto;
     max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit} * 2));
     max-width:         calc(#{$content-width} - (#{$spacing-unit} * 2));
+
 }
 
 .player-now-playing {
     display: block;
     font-size: $player-now-playing-size;
     line-height: $player-now-playing-size;
+    //height: $player-now-playing-size * 3;
+    //height: auto;
     margin-top: 0;
     margin-bottom: 0;
     padding: 0;
@@ -641,9 +648,11 @@ Audio Player Styling
     background-size: 44px;
 }
 
+
+
 // Fallback audio element styling -- just for use if you're using the default HTML5 audio element with controls
 
-#audio-en audio, #audio-ar audio {
+audio {
     margin: 0 auto;
     display: block;
 }
