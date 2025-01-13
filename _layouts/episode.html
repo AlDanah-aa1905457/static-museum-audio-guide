@@ -1,7 +1,6 @@
 ---
 layout: master_episode
 ---
-
 <article class="post">
 
   <header class="post-header">
@@ -38,21 +37,6 @@ layout: master_episode
     </div>
   {% endif %}
 
-  <!-- Audio Section -->
-  <div id="audio-en">
-    <audio controls>
-      <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-  </div>
-
-  <div id="audio-ar" style="display: none;">
-    <audio controls>
-      <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}" type="audio/mpeg">
-      المتصفح الخاص بك لا يدعم عنصر الصوت.
-    </audio>
-  </div>
-
   <div class="post-content">
     {{ content }}
   </div>
@@ -69,21 +53,22 @@ layout: master_episode
     const titleEn = document.getElementById('title-en');
     const titleAr = document.getElementById('title-ar');
 
-    // Audio Elements
-    const audioEn = document.getElementById('audio-en');
-    const audioAr = document.getElementById('audio-ar');
+    // Toggle Section Titles
+    if (sectionTitleEn.style.display === 'none' || !sectionTitleEn.style.display) {
+      sectionTitleEn.style.display = 'inline';
+      sectionTitleAr.style.display = 'none';
+    } else {
+      sectionTitleEn.style.display = 'none';
+      sectionTitleAr.style.display = 'inline';
+    }
 
-    // Check current state and toggle all elements
-    const isEnglish = sectionTitleEn.style.display !== 'none';
-
-    // Synchronize Titles and Audio
-    sectionTitleEn.style.display = isEnglish ? 'none' : 'inline';
-    sectionTitleAr.style.display = isEnglish ? 'inline' : 'none';
-
-    titleEn.style.display = isEnglish ? 'none' : 'inline';
-    titleAr.style.display = isEnglish ? 'inline' : 'none';
-
-    audioEn.style.display = isEnglish ? 'none' : 'block';
-    audioAr.style.display = isEnglish ? 'block' : 'none';
+    // Toggle Main Titles
+    if (titleEn.style.display === 'none' || !titleEn.style.display) {
+      titleEn.style.display = 'inline';
+      titleAr.style.display = 'none';
+    } else {
+      titleEn.style.display = 'none';
+      titleAr.style.display = 'inline';
+    }
   });
 </script>
