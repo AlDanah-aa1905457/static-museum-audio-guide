@@ -44,10 +44,20 @@ layout: master_episode
 
 <script>
   document.getElementById('toggle-language').addEventListener('click', function() {
+    const sectionTitleEn = document.getElementById('section-title-en');
+    const sectionTitleAr = document.getElementById('section-title-ar');
+
     const titleEn = document.getElementById('title-en');
     const titleAr = document.getElementById('title-ar');
 
-    // Toggle visibility
+    if (sectionTitleEn.style.display === 'none' || !sectionTitleEn.style.display) {
+      sectionTitleEn.style.display = 'inline';
+      sectionTitleAr.style.display = 'none';
+    } else {
+      sectionTitleEn.style.display = 'none';
+      sectionTitleAr.style.display = 'inline';
+    }
+
     if (titleEn.style.display === 'none' || !titleEn.style.display) {
       titleEn.style.display = 'inline';
       titleAr.style.display = 'none';
@@ -57,6 +67,5 @@ layout: master_episode
     }
   });
 </script>
-
 
   
