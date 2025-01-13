@@ -38,9 +38,12 @@ layout: master_episode
   {% endif %}
   
   <div class="post-content">
+    <!-- English Content -->
     <div id="content-en">
       {{ content }}
     </div>
+
+    <!-- Arabic Content -->
     <div id="content-ar" style="display: none; direction: rtl; text-align: right;">
       <h2>النص باللغة العربية</h2>
       <p>هذا هو النص العربي للنقطة الأولى. استبدل هذا النص بالمحتوى باللغة العربية.</p>
@@ -50,4 +53,17 @@ layout: master_episode
 </article>
 
 <script>
-  document.getElementById
+  // Language toggle functionality
+  document.getElementById('toggle-language').addEventListener('click', function() {
+    const enContent = document.getElementById('content-en');
+    const arContent = document.getElementById('content-ar');
+
+    if (enContent.style.display === 'none') {
+      enContent.style.display = 'block';
+      arContent.style.display = 'none';
+    } else {
+      enContent.style.display = 'none';
+      arContent.style.display = 'block';
+    }
+  });
+</script>
