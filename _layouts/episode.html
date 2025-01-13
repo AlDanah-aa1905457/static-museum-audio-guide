@@ -47,7 +47,8 @@ layout: master_episode
     const titleEn = document.getElementById('title-en');
     const titleAr = document.getElementById('title-ar');
 
-    if (titleEn.style.display === 'none') {
+    // Toggle visibility
+    if (titleEn.style.display === 'none' || !titleEn.style.display) {
       titleEn.style.display = 'inline';
       titleAr.style.display = 'none';
     } else {
@@ -56,5 +57,6 @@ layout: master_episode
     }
   });
 </script>
+
 
   
