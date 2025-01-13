@@ -6,64 +6,32 @@ layout: master_episode
 
   <header class="post-header">
     <div class="post-title-episode">
-      <div class="post-header-stop-id" style="background-image: url('{{ site.baseurl }}{{ site.headphones_icon_light }}');">
-        <span>{{ page.stop_id }}</span>
-      </div>
-      
+      <div class="post-header-stop-id" style="background-image: url('{{ site.baseurl }}{{ site.headphones_icon_light }}');"><span>{{ page.stop_id }}</span></div>
       {% if page.section_title != null %}
-        <h2 class="post-header-section-title">{{ page.section_title }}</h2>
+        <h2 class="post-header-section-title">{{ page.section_title }}</h1>
       {% endif %}
-      
-      <div style="display: flex; align-items: center;">
-        {% if page.title != null %}
-          <h3 class="post-header-title" style="margin-right: 10px;">{{ page.title }}</h3>
-        {% endif %}
-        
-        <!-- Language Toggle Button -->
-        <button id="toggle-language" style="padding: 5px 10px; font-size: 14px; cursor: pointer;">🌐 Toggle Language</button>
-      </div>
+      {% if page.title != null %}
+        <h3 class="post-header-title">{{ page.title }}</h2>
+      {% endif %}
     </div>
   </header>
-  
   {% if page.hero_images != null %}
     <div class="slick-container post-hero-image-container">
       <div class="slick-post-hero-image">
         {% for hero in page.hero_images %}
           <div class="post-hero-image">    
-            <img src="{{ site.baseurl }}{{ site.episode_hero_path }}{{ hero.path }}" alt="{{ hero.alt_text }}"/>
+            <img src="{{ site.baseurl }}{{ site.episode_hero_path }}{{hero.path}}" alt="{{hero.alt_text}}"/>
           </div>
         {% endfor %}
       </div>
     </div>
   {% endif %}
-  
   <div class="post-content">
-    <!-- English Content -->
-    <div id="content-en">
-      {{ content }}
-    </div>
-
-    <!-- Arabic Content -->
-    <div id="content-ar" style="display: none; direction: rtl; text-align: right;">
-      <h2>النص باللغة العربية</h2>
-      <p>هذا هو النص العربي للنقطة الأولى. استبدل هذا النص بالمحتوى باللغة العربية.</p>
-    </div>
+    {{ content }}
   </div>
 
 </article>
 
-<script>
-  // Language toggle functionality
-  document.getElementById('toggle-language').addEventListener('click', function() {
-    const enContent = document.getElementById('content-en');
-    const arContent = document.getElementById('content-ar');
-
-    if (enContent.style.display === 'none') {
-      enContent.style.display = 'block';
-      arContent.style.display = 'none';
-    } else {
-      enContent.style.display = 'none';
-      arContent.style.display = 'block';
-    }
-  });
-</script>
+  
+  
+  
