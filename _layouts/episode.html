@@ -8,7 +8,10 @@ layout: master_episode
     <div class="post-title-episode">
       <div class="post-header-stop-id" style="background-image: url('{{ site.baseurl }}{{ site.headphones_icon_light }}');"><span>{{ page.stop_id }}</span></div>
       {% if page.section_title != null %}
-        <h2 class="post-header-section-title">{{ page.section_title }} <button id="toggle-language" style="background: none; border: none; font-size: 18px; cursor: pointer;" title="Toggle Language">🌐</button> </h1>
+      <h2 class="post-header-section-title" style="display: flex; justify-content: space-between; align-items: center;">
+  {{ page.section_title }}
+  <button id="toggle-language" style="background: none; border: none; font-size: 18px; cursor: pointer;" title="Toggle Language">🌐</button>
+ </h1>
       {% endif %}
       {% if page.title != null %}
         <h3 class="post-header-title">{{ page.title }}</h2>
