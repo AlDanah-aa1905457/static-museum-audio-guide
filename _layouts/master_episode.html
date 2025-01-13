@@ -65,48 +65,55 @@
       </div>
     </div>
 
-    <!-- Synchronization Script -->
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const toggleButton = document.createElement('button');
-        toggleButton.id = 'toggle-language';
-        toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
-        toggleButton.title = 'Toggle Language';
-        toggleButton.innerHTML = '🌐';
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.createElement('button');
+    toggleButton.id = 'toggle-language';
+    toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
+    toggleButton.title = 'Toggle Language';
+    toggleButton.innerHTML = '🌐';
 
-        const sectionTitleContainer = document.querySelector('.post-header-section-title');
-        sectionTitleContainer.appendChild(toggleButton);
+    const sectionTitleContainer = document.querySelector('.post-header-section-title');
+    sectionTitleContainer.appendChild(toggleButton);
 
-        toggleButton.addEventListener('click', function() {
-          // Section Titles
-          const sectionTitleEn = document.getElementById('section-title-en');
-          const sectionTitleAr = document.getElementById('section-title-ar');
+    toggleButton.addEventListener('click', function() {
+      // Section Titles
+      const sectionTitleEn = document.getElementById('section-title-en');
+      const sectionTitleAr = document.getElementById('section-title-ar');
 
-          // Main Titles
-          const titleEn = document.getElementById('audio-title-en');
-          const titleAr = document.getElementById('audio-title-ar');
+      // Main Titles
+      const titleEn = document.getElementById('audio-title-en');
+      const titleAr = document.getElementById('audio-title-ar');
 
-          // Audio Elements
-          const audioEn = document.getElementById('audio-en');
-          const audioAr = document.getElementById('audio-ar');
+      // Additional Titles
+      const titleEnVariable = document.getElementById('title-en');
+      const titleArVariable = document.getElementById('title-ar');
 
-          // Check current state and toggle all elements
-          const isEnglish = sectionTitleEn.style.display !== 'none';
+      // Audio Elements
+      const audioEn = document.getElementById('audio-en');
+      const audioAr = document.getElementById('audio-ar');
 
-          // Synchronize Section Titles
-          sectionTitleEn.style.display = isEnglish ? 'none' : 'inline';
-          sectionTitleAr.style.display = isEnglish ? 'inline' : 'none';
+      // Check current state and toggle all elements
+      const isEnglish = sectionTitleEn.style.display !== 'none';
 
-          // Synchronize Main Titles
-          titleEn.style.display = isEnglish ? 'none' : 'block';
-          titleAr.style.display = isEnglish ? 'block' : 'none';
+      // Synchronize Section Titles
+      sectionTitleEn.style.display = isEnglish ? 'none' : 'inline';
+      sectionTitleAr.style.display = isEnglish ? 'inline' : 'none';
 
-          // Synchronize Audio
-          audioEn.style.display = isEnglish ? 'none' : 'block';
-          audioAr.style.display = isEnglish ? 'block' : 'none';
-        });
-      });
-    </script>
+      // Synchronize Main Titles
+      titleEn.style.display = isEnglish ? 'none' : 'block';
+      titleAr.style.display = isEnglish ? 'block' : 'none';
+
+      // Synchronize Additional Titles
+      titleEnVariable.style.display = isEnglish ? 'none' : 'block';
+      titleArVariable.style.display = isEnglish ? 'block' : 'none';
+
+      // Synchronize Audio
+      audioEn.style.display = isEnglish ? 'none' : 'block';
+      audioAr.style.display = isEnglish ? 'block' : 'none';
+    });
+  });
+</script>
 
   </body>
 
