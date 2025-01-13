@@ -9,18 +9,33 @@ layout: master_episode
         <span>{{ page.stop_id }}</span>
       </div>
 
+      <!-- Section Title with Language Toggle -->
       <h2 class="post-header-section-title" style="display: flex; justify-content: space-between; align-items: center;">
         <span id="section-title-en">{{ page.section_title_en }}</span>
         <span id="section-title-ar" style="display: none;">{{ page.section_title_ar }}</span>
         <button id="toggle-language" style="background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;" title="Toggle Language">🌐</button>
       </h2>
 
+      <!-- Main Title -->
       <h3 class="post-header-title">
         <span id="title-en">{{ page.title_en }}</span>
         <span id="title-ar" style="display: none;">{{ page.title_ar }}</span>
       </h3>
     </div>
   </header>
+
+  <!-- Hero Images -->
+  {% if page.hero_images != null %}
+    <div class="slick-container post-hero-image-container">
+      <div class="slick-post-hero-image">
+        {% for hero in page.hero_images %}
+          <div class="post-hero-image">    
+            <img src="{{ site.baseurl }}{{ site.episode_hero_path }}{{ hero.path }}" alt="{{ hero.alt_text }}"/>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
 
   <div class="post-content">
     {{ content }}
@@ -30,12 +45,15 @@ layout: master_episode
 
 <script>
   document.getElementById('toggle-language').addEventListener('click', function() {
+    // Section Titles
     const sectionTitleEn = document.getElementById('section-title-en');
     const sectionTitleAr = document.getElementById('section-title-ar');
 
+    // Main Titles
     const titleEn = document.getElementById('title-en');
     const titleAr = document.getElementById('title-ar');
 
+    // Toggle Section Titles
     if (sectionTitleEn.style.display === 'none' || !sectionTitleEn.style.display) {
       sectionTitleEn.style.display = 'inline';
       sectionTitleAr.style.display = 'none';
@@ -44,6 +62,7 @@ layout: master_episode
       sectionTitleAr.style.display = 'inline';
     }
 
+    // Toggle Main Titles
     if (titleEn.style.display === 'none' || !titleEn.style.display) {
       titleEn.style.display = 'inline';
       titleAr.style.display = 'none';
