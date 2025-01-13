@@ -23,22 +23,3 @@ layout: master
   </ul>
 
 </div>
-
-<script>
-  // Language toggle functionality
-  document.querySelectorAll('.toggle-language').forEach(button => {
-    button.addEventListener('click', function() {
-      const stopId = this.getAttribute('data-stop-id');
-      const enContent = document.querySelector(`#stop-${stopId}-en`);
-      const arContent = document.querySelector(`#stop-${stopId}-ar`);
-
-      if (enContent.style.display === 'none') {
-        enContent.style.display = 'block';
-        arContent.style.display = 'none';
-      } else {
-        enContent.style.display = 'none';
-        arContent.style.display = 'block';
-      }
-    });
-  });
-</script>
