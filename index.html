@@ -15,8 +15,7 @@ layout: master
           <span class="post-item">{{ my_page.stop_id }}</span>
         </a>
         <div class="language-toggle" style="display: inline-block; margin-left: 10px;">
-          <a href="{{ my_page.url | prepend: site.baseurl }}?lang=en" class="language-icon">🇬🇧</a>
-          <a href="{{ my_page.url | prepend: site.baseurl }}?lang=ar" class="language-icon">🇸🇦</a>
+          <button class="toggle-language" data-stop-id="{{ my_page.stop_id }}">🌐</button>
         </div>
       </li>
       {% endif %}
@@ -24,3 +23,22 @@ layout: master
   </ul>
 
 </div>
+
+<script>
+  // Language toggle functionality
+  document.querySelectorAll('.toggle-language').forEach(button => {
+    button.addEventListener('click', function() {
+      const stopId = this.getAttribute('data-stop-id');
+      const enContent = document.querySelector(`#stop-${stopId}-en`);
+      const arContent = document.querySelector(`#stop-${stopId}-ar`);
+
+      if (enContent.style.display === 'none') {
+        enContent.style.display = 'block';
+        arContent.style.display = 'none';
+      } else {
+        enContent.style.display = 'none';
+        arContent.style.display = 'block';
+      }
+    });
+  });
+</script>
