@@ -525,6 +525,7 @@ Audio Player Styling
     width: 100%;
 }
 
+
 .audio-player {
     padding: 0 0.25em;
     background: none;
@@ -532,12 +533,15 @@ Audio Player Styling
     margin-right: auto;
     max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit} * 2));
     max-width:         calc(#{$content-width} - (#{$spacing-unit} * 2));
+
 }
 
 .player-now-playing {
     display: block;
     font-size: $player-now-playing-size;
     line-height: $player-now-playing-size;
+    //height: $player-now-playing-size * 3;
+    //height: auto;
     margin-top: 0;
     margin-bottom: 0;
     padding: 0;
@@ -549,20 +553,66 @@ Audio Player Styling
     }
 }
 
-/* Audio elements for English and Arabic versions */
-#audio-en, #audio-ar {
-    margin: 0 auto;
-    display: block; /* Ensures the audio element is properly displayed */
-    padding-top: 10px; /* Adds some spacing above the audio controls */
+.player-buttons {
+    height: $player-height;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    margin-top: 6px;
+    .player-buttons-prev-number {
+        float: right;
+        line-height: $player-button-size;
+        vertical-align: top;
+        color: $player-bgcolor;
+    }
+    .player-buttons-next-number {
+        float: left;
+        line-height: $player-button-size;
+        vertical-align: top;
+        color: $player-bgcolor;
+    }
+    .player-buttons-prev {
+        display: inline-block;
+        text-align: left;
+        position: absolute;
+        left: 0;
+        a {
+            background: url('../img/icons/button_prev.svg');
+            background-size: $player-button-size;
+            width: $player-button-size;
+            height: $player-button-size;
+
+            display: inline-block;
+            line-height: $player-height;
+            margin: 0;
+            padding: 0;
+            z-index: 10000;
+        }
+    }
+
+    .player-buttons-next {
+        display: inline-block;
+        text-align: right;
+        position: absolute;
+        right: 0;
+        a {
+            background: url('../img/icons/button_next.svg');
+            background-size: $player-button-size;
+            width: $player-button-size;
+            height: $player-button-size;
+
+            display: inline-block;
+            line-height: $player-height;
+            margin: 0;
+            padding: 0;
+            text-align: right;
+            z-index: 10000;            
+        }
+    }
 }
 
-/* Styling the audio controls for both versions */
-#audio-en audio, #audio-ar audio {
-    width: 100%;
-    max-width: 600px; /* Adjust based on your layout preferences */
-    margin: 0 auto;
-    display: block;
-}
+// jPlayer
+// Progress bar
 
 .jp-progress {
     width: 100%;
@@ -598,8 +648,11 @@ Audio Player Styling
     background-size: 44px;
 }
 
-/* Fallback audio element styling */
-#audio-en audio, #audio-ar audio {
+
+
+// Fallback audio element styling -- just for use if you're using the default HTML5 audio element with controls
+
+audio {
     margin: 0 auto;
     display: block;
 }
