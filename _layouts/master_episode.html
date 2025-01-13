@@ -34,7 +34,13 @@
       <div class="jp-gui jp-interface audio-footer-container" data-role="footer" data-position="fixed" data-tap-toggle="false">
         <div class="audio-player">
 
+          <!-- Titles -->
           <div class="player-now-playing">
+            <h2>
+              <span id="section-title-en">{{ page.section_title_en }}</span>
+              <span id="section-title-ar" style="display: none;">{{ page.section_title_ar }}</span>
+            </h2>
+
             <p id="audio-title-en">{{ page.title_en }}</p>
             <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
           </div>
@@ -65,13 +71,16 @@
       </div>
     </div>
 
+    <!-- Language Toggle Button -->
+    <button id="toggle-language" style="position: fixed; top: 10px; right: 10px; background: none; border: none; font-size: 25px; cursor: pointer;" title="Toggle Language">🌐</button>
+
     <script>
       document.getElementById('toggle-language').addEventListener('click', function() {
         // Section Titles
         const sectionTitleEn = document.getElementById('section-title-en');
         const sectionTitleAr = document.getElementById('section-title-ar');
 
-        // Main Titles
+        // Page Titles
         const titleEn = document.getElementById('audio-title-en');
         const titleAr = document.getElementById('audio-title-ar');
 
@@ -79,16 +88,18 @@
         const audioEn = document.getElementById('audio-en');
         const audioAr = document.getElementById('audio-ar');
 
-        // Check current state and toggle all elements
+        // Determine current state
         const isEnglish = sectionTitleEn.style.display !== 'none';
 
-        // Synchronize Titles and Audio
+        // Toggle Section Titles
         sectionTitleEn.style.display = isEnglish ? 'none' : 'inline';
         sectionTitleAr.style.display = isEnglish ? 'inline' : 'none';
 
+        // Toggle Page Titles
         titleEn.style.display = isEnglish ? 'none' : 'block';
         titleAr.style.display = isEnglish ? 'block' : 'none';
 
+        // Toggle Audio
         audioEn.style.display = isEnglish ? 'none' : 'block';
         audioAr.style.display = isEnglish ? 'block' : 'none';
       });
