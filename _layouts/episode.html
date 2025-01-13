@@ -1,7 +1,6 @@
 ---
 layout: master_episode
 ---
-
 <article class="post">
 
   <header class="post-header">
@@ -10,12 +9,11 @@ layout: master_episode
         <span>{{ page.stop_id }}</span>
       </div>
 
-      {% if page.section_title != null %}
-        <h2 class="post-header-section-title" style="display: flex; justify-content: space-between; align-items: center;">
-          {{ page.section_title }}
-          <button id="toggle-language" style="background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;" title="Toggle Language">🌐</button>
-        </h2>
-      {% endif %}
+      <h2 class="post-header-section-title" style="display: flex; justify-content: space-between; align-items: center;">
+        <span id="section-title-en">{{ page.section_title_en }}</span>
+        <span id="section-title-ar" style="display: none;">{{ page.section_title_ar }}</span>
+        <button id="toggle-language" style="background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;" title="Toggle Language">🌐</button>
+      </h2>
 
       <h3 class="post-header-title">
         <span id="title-en">{{ page.title_en }}</span>
@@ -23,18 +21,6 @@ layout: master_episode
       </h3>
     </div>
   </header>
-
-  {% if page.hero_images != null %}
-    <div class="slick-container post-hero-image-container">
-      <div class="slick-post-hero-image">
-        {% for hero in page.hero_images %}
-          <div class="post-hero-image">    
-            <img src="{{ site.baseurl }}{{ site.episode_hero_path }}{{ hero.path }}" alt="{{ hero.alt_text }}"/>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  {% endif %}
 
   <div class="post-content">
     {{ content }}
@@ -67,5 +53,3 @@ layout: master_episode
     }
   });
 </script>
-
-  
