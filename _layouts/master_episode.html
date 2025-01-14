@@ -29,22 +29,37 @@
       </div>
     </div>
 
-    <!-- Static Audio Element -->
-    <div id="episode-element">
-      <audio id="static-audio" controls>
-        <source id="static-source" src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
-
+    <!-- Audio Player Section -->
     <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
       <div class="jp-gui jp-interface audio-footer-container" data-role="footer" data-position="fixed" data-tap-toggle="false">
         <div class="audio-player">
-          
+
           <div class="player-now-playing">
             <p id="audio-title-en" style="display: inline;">{{ page.title_en }}</p>
             <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
             <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
+          </div>
+
+          <!-- English Audio -->
+          <div id="audio-en" class="audio-file" style="display: block;">
+            <audio controls>
+              <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+
+          <!-- Arabic Audio -->
+          <div id="audio-ar" class="audio-file" style="display: none;">
+            <audio controls>
+              <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}" type="audio/mpeg">
+              المتصفح الخاص بك لا يدعم عنصر الصوت.
+            </audio>
+          </div>
+
+          <div class="jp-progress">
+            <div class="jp-seek-bar">
+              <div class="jp-play-bar"></div>
+            </div>
           </div>
 
         </div>
@@ -56,26 +71,20 @@
         const toggleButton = document.getElementById('toggle-language');
         const titleEn = document.getElementById('audio-title-en');
         const titleAr = document.getElementById('audio-title-ar');
-        const staticAudio = document.getElementById('static-audio');
-        const staticSource = document.getElementById('static-source');
-        const audioPathEn = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
-        const audioPathAr = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
-
-        let currentLanguage = 'en';
+        const audioEn = document.getElementById('audio-en');
+        const audioAr = document.getElementById('audio-ar');
 
         // Toggle Language
         toggleButton.addEventListener('click', function() {
-          currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
-          const newAudioPath = currentLanguage === 'en' ? audioPathEn : audioPathAr;
+          const isEnglish = titleEn.style.display === 'inline';
 
-          // Update Titles
-          titleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
-          titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
+          // Toggle Titles
+          titleEn.style.display = isEnglish ? 'none' : 'inline';
+          titleAr.style.display = isEnglish ? 'inline' : 'none';
 
-          // Set new audio source
-          staticSource.src = newAudioPath;
-          staticAudio.load(); // Reload the audio with the new source
-          staticAudio.play(); // Optional: Automatically play after toggling
+          // Toggle Audio
+          audioEn.style.display = isEnglish ? 'none' : 'block';
+          audioAr.style.display = isEnglish ? 'block' : 'none';
         });
       });
     </script>
