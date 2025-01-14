@@ -28,12 +28,43 @@
         {{ content }}
       </div>
     </div>
+    <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
+  <div class="jp-gui jp-interface audio-footer-container" data-role="footer" data-position="fixed" data-tap-toggle="false">
+    <div class="audio-player">
+      
+      <div class="player-now-playing">
+        <p id="audio-title-en" style="display: block;">{{ page.title_en }}</p>
+        <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
+      </div>
+
+      <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+      <div id="episode-element">
+        <audio id="audio-player" controls>
+          <source id="audio-source" src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+
+      <div class="jp-progress">
+        <div class="jp-seek-bar">
+          <div class="jp-play-bar"></div>
+        </div>
+      </div>
+          
+      <div class="jp-no-solution">
+        <span>Update Required</span>
+        To play audio, enable JavaScript, and run a browser that supports HTML5 MP3 audio, or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+      </div>
+    </div>
+  </div>
+</div>
+
 
         </div>
       </div>
     </div>
 
-    <script>
+   <script>
   document.addEventListener('DOMContentLoaded', function() {
     const toggleButton = document.createElement('button');
     toggleButton.id = 'toggle-language';
@@ -42,22 +73,39 @@
     toggleButton.innerHTML = '🌐';
 
     const sectionTitleContainer = document.querySelector('.post-header-section-title');
-    sectionTitleContainer.appendChild(toggleButton);
+    if (sectionTitleContainer) {
+      sectionTitleContainer.appendChild(toggleButton);
+    } else {
+      console.warn("Element '.post-header-section-title' not found. Toggle button not added.");
+      return;
+    }
 
     toggleButton.addEventListener('click', function() {
-      // Collect all elements that have an English and Arabic version
+      // Collect all elements with English and Arabic versions
       const elementsEn = document.querySelectorAll('[id$="-en"]');
       const elementsAr = document.querySelectorAll('[id$="-ar"]');
 
-      // Determine current language state (assumes initial state is English visible)
+      // Determine current language state
       const isEnglish = Array.from(elementsEn).some(el => el.style.display !== 'none');
 
-      // Toggle display for all English and Arabic elements
+      // Toggle text visibility
       elementsEn.forEach(el => el.style.display = isEnglish ? 'none' : 'block');
       elementsAr.forEach(el => el.style.display = isEnglish ? 'block' : 'none');
+
+      // Toggle audio source
+      const audioPlayer = document.getElementById('audio-player');
+      const audioSource = document.getElementById('audio-source');
+
+      if (isEnglish) {
+        audioSource.src = '{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}';
+      } else {
+        audioSource.src = '{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}';
+      }
+
+      // Reload the audio to apply the new source
+      audioPlayer.load();
     });
   });
-
 </script>
 
   </body>
