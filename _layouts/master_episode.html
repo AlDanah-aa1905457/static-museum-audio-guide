@@ -26,16 +26,10 @@
   </div>
 
   <div class="page-content">
-  <div class="wrapper">
-    <div id="content-en" style="display: block;">
-      {{ page.content_en | markdownify }}
-    </div>
-    <div id="content-ar" style="display: none;">
-      {{ page.content_ar | markdownify }}
+    <div class="wrapper">
+      {{ content }}
     </div>
   </div>
-</div>
-
 <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
   <div class="jp-gui jp-interface audio-footer-container" data-role="footer" data-position="fixed" data-tap-toggle="false">
     <div class="audio-player">
@@ -113,30 +107,32 @@
     }
 
     toggleButton.addEventListener('click', function () {
-      // Toggle visibility of English and Arabic content
-      const contentEn = document.getElementById('content-en');
-      const contentAr = document.getElementById('content-ar');
-      const isEnglish = contentEn.style.display !== 'none';
-
-      contentEn.style.display = isEnglish ? 'none' : 'block';
-      contentAr.style.display = isEnglish ? 'block' : 'none';
-
-      // Toggle titles and other dynamic elements
+      // Collect all elements with English and Arabic versions
       const elementsEn = document.querySelectorAll('[id$="-en"]');
       const elementsAr = document.querySelectorAll('[id$="-ar"]');
+
+      // Determine current language state
+      const isEnglish = Array.from(elementsEn).some(el => el.style.display !== 'none');
+
+      // Toggle text visibility
       elementsEn.forEach(el => el.style.display = isEnglish ? 'none' : 'block');
       elementsAr.forEach(el => el.style.display = isEnglish ? 'block' : 'none');
 
       // Toggle audio source
+      const audioPlayer = document.getElementById('audio-player');
       const audioSource = document.getElementById('audio-source');
-      audioSource.src = isEnglish
-        ? '{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}'
-        : '{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}';
-      document.getElementById('audio-player').load();
+
+      if (isEnglish) {
+        audioSource.src = '{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}';
+      } else {
+        audioSource.src = '{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}';
+      }
+
+      // Reload the audio to apply the new source
+      audioPlayer.load();
     });
   });
 </script>
-
 
 
   </body>
