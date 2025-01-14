@@ -34,9 +34,9 @@
         <div class="audio-player">
           
           <div class="player-now-playing">
-            <p id="audio-title-en">{{ page.title_en }}</p>
+            <p id="audio-title-en" style="display: inline;">{{ page.title_en }}</p>
             <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
-            <button id="toggle-language" style="background: none; border: none; font-size: 25px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
+            <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
           </div>
 
           <audio id="audio-player" controls>
@@ -87,14 +87,14 @@
         const toggleButton = document.getElementById('toggle-language');
         const titleEn = document.getElementById('audio-title-en');
         const titleAr = document.getElementById('audio-title-ar');
-        const audioPlayer = document.getElementById('audio-player');
         const audioSource = document.getElementById('audio-source');
+        const audioPlayer = document.getElementById('audio-player');
 
         toggleButton.addEventListener('click', function() {
           const isEnglish = titleEn.style.display !== 'none';
 
-          titleEn.style.display = isEnglish ? 'none' : 'block';
-          titleAr.style.display = isEnglish ? 'block' : 'none';
+          titleEn.style.display = isEnglish ? 'none' : 'inline';
+          titleAr.style.display = isEnglish ? 'inline' : 'none';
 
           audioSource.src = isEnglish 
             ? "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}" 
