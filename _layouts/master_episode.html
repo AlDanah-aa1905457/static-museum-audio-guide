@@ -85,29 +85,28 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Initialize jPlayer with ready callback
-    $("#jquery_jplayer_1").jPlayer({
-      ready: function() {
-        $(this).jPlayer("setMedia", {
-          mp3: "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}"
-        }).jPlayer("pause"); // Add explicit pause after initialization
-      },
-      cssSelectorAncestor: "#jp_container_1",
-      swfPath: "{{ site.baseurl }}/js",
-      supplied: "mp3",
-      useStateClassSkin: true,
-      autoBlur: false,
-      smoothPlayBar: true,
-      keyEnabled: true,
-      remainingDuration: true,
-      toggleDuration: true,
-      preload: 'auto', // Add preload option
-      loadeddata: function() { // Add loadeddata event handler
-        $('.jp-play').removeAttr('disabled').css('pointer-events', 'auto');
-      }
-    });
+    // Wait for a brief moment to ensure DOM is fully ready
+    setTimeout(function() {
+      $("#jquery_jplayer_1").jPlayer({
+        ready: function() {
+          $(this).jPlayer("setMedia", {
+            mp3: "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}"
+          });
+        },
+        cssSelectorAncestor: "#jp_container_1",
+        swfPath: "{{ site.baseurl }}/js",
+        supplied: "mp3",
+        useStateClassSkin: true,
+        autoBlur: false,
+        smoothPlayBar: true,
+        keyEnabled: true,
+        remainingDuration: true,
+        toggleDuration: true,
+        preload: 'metadata' // Changed from 'auto' to 'metadata'
+      });
+    }, 100);
 
-    // Language toggle setup and functionality
+    // Rest of your language toggle code remains the same...
     const toggleButton = document.createElement('button');
     toggleButton.id = 'toggle-language';
     toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
@@ -118,9 +117,6 @@
     if (sectionTitleContainer) {
       sectionTitleContainer.appendChild(toggleButton);
     }
-
-    // Ensure play button is initially clickable
-    $('.jp-play').removeAttr('disabled').css('pointer-events', 'auto');
 
     toggleButton.addEventListener('click', function() {
       const isPlaying = !$("#jquery_jplayer_1").data().jPlayer.status.paused;
@@ -139,12 +135,8 @@
           : "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}"
       });
 
-      // Ensure button is clickable after media change
-      $('.jp-play').removeAttr('disabled').css('pointer-events', 'auto');
-
-      $("#jquery_jplayer_1").jPlayer("play", currentTime);
-      if (!isPlaying) {
-        $("#jquery_jplayer_1").jPlayer("pause");
+      if (isPlaying) {
+        $("#jquery_jplayer_1").jPlayer("play", currentTime);
       }
     });
   });
