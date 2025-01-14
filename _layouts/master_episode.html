@@ -33,18 +33,25 @@
     <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
       <div class="jp-gui jp-interface audio-footer-container" data-role="footer" data-position="fixed" data-tap-toggle="false">
         <div class="audio-player">
-          
+
           <div class="player-now-playing">
             <p id="audio-title-en">{{ page.title_en }}</p>
             <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
           </div>
 
-          <!-- Audio Source -->
-          <div id="episode-element">
+          <!-- English Audio -->
+          <div id="audio-en">
             <audio controls>
-              <source id="episode-source-en" src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
-              <source id="episode-source-ar" src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}" type="audio/mpeg" style="display: none;">
+              <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
               Your browser does not support the audio element.
+            </audio>
+          </div>
+
+          <!-- Arabic Audio -->
+          <div id="audio-ar" style="display: none;">
+            <audio controls>
+              <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}" type="audio/mpeg">
+              المتصفح الخاص بك لا يدعم عنصر الصوت.
             </audio>
           </div>
 
@@ -53,57 +60,60 @@
               <div class="jp-play-bar"></div>
             </div>
           </div>
-          
-          <div class="jp-no-solution">
-            <span>Update Required</span>
-            To play audio, enable JavaScript and use a browser that supports HTML5 MP3 audio.
-          </div>
-          
+
         </div>
       </div>
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const toggleButton = document.createElement('button');
-        toggleButton.id = 'toggle-language';
-        toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
-        toggleButton.title = 'Toggle Language';
-        toggleButton.innerHTML = '🌐';
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.createElement('button');
+    toggleButton.id = 'toggle-language';
+    toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
+    toggleButton.title = 'Toggle Language';
+    toggleButton.innerHTML = '🌐';
 
-        const sectionTitleContainer = document.querySelector('.post-header-section-title');
-        sectionTitleContainer.appendChild(toggleButton);
+    const sectionTitleContainer = document.querySelector('.post-header-section-title');
+    sectionTitleContainer.appendChild(toggleButton);
 
-        toggleButton.addEventListener('click', function() {
-          // Section Titles
-          const sectionTitleEn = document.getElementById('section-title-en');
-          const sectionTitleAr = document.getElementById('section-title-ar');
+    toggleButton.addEventListener('click', function() {
+      // Section Titles
+      const sectionTitleEn = document.getElementById('section-title-en');
+      const sectionTitleAr = document.getElementById('section-title-ar');
 
-          // Main Titles
-          const titleEn = document.getElementById('audio-title-en');
-          const titleAr = document.getElementById('audio-title-ar');
+      // Main Titles
+      const titleEn = document.getElementById('audio-title-en');
+      const titleAr = document.getElementById('audio-title-ar');
 
-          // Audio Elements
-          const audioEn = document.getElementById('episode-source-en');
-          const audioAr = document.getElementById('episode-source-ar');
+      // Additional Titles
+      const titleEnVariable = document.getElementById('title-en');
+      const titleArVariable = document.getElementById('title-ar');
 
-          // Check current state and toggle all elements
-          const isEnglish = sectionTitleEn.style.display !== 'none';
+      // Audio Elements
+      const audioEn = document.getElementById('audio-en');
+      const audioAr = document.getElementById('audio-ar');
 
-          // Synchronize Section Titles
-          sectionTitleEn.style.display = isEnglish ? 'none' : 'inline';
-          sectionTitleAr.style.display = isEnglish ? 'inline' : 'none';
+      // Check current state and toggle all elements
+      const isEnglish = sectionTitleEn.style.display !== 'none';
 
-          // Synchronize Main Titles
-          titleEn.style.display = isEnglish ? 'none' : 'block';
-          titleAr.style.display = isEnglish ? 'block' : 'none';
+      // Synchronize Section Titles
+      sectionTitleEn.style.display = isEnglish ? 'none' : 'inline';
+      sectionTitleAr.style.display = isEnglish ? 'inline' : 'none';
 
-          // Synchronize Audio
-          audioEn.style.display = isEnglish ? 'none' : 'block';
-          audioAr.style.display = isEnglish ? 'block' : 'none';
-        });
-      });
-    </script>
+      // Synchronize Main Titles
+      titleEn.style.display = isEnglish ? 'none' : 'block';
+      titleAr.style.display = isEnglish ? 'block' : 'none';
+
+      // Synchronize Additional Titles
+      titleEnVariable.style.display = isEnglish ? 'none' : 'block';
+      titleArVariable.style.display = isEnglish ? 'block' : 'none';
+
+      // Synchronize Audio
+      audioEn.style.display = isEnglish ? 'none' : 'block';
+      audioAr.style.display = isEnglish ? 'block' : 'none';
+    });
+  });
+</script>
 
   </body>
 
