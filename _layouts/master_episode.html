@@ -91,7 +91,7 @@
   </div>
 
   <script>
-   document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
   console.log("Initializing jPlayer with static audio.");
 
   const defaultAudioPath = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
@@ -104,8 +104,14 @@
       $(this).jPlayer("setMedia", {
         mp3: defaultAudioPath
       });
+
+      // Automatically enable the play button
       $('.jp-controls').css('pointer-events', 'auto');
       $('.jp-play').prop('disabled', false);
+      console.log("Play button enabled.");
+
+      // Force play button to become active
+      $(this).jPlayer("play");
     },
     cssSelectorAncestor: "#jp_container_1",
     swfPath: "{{ site.baseurl }}/js",
@@ -118,7 +124,7 @@
     toggleDuration: true
   });
 
-  // Language toggle logic
+  // Language toggle functionality
   const toggleButton = document.createElement('button');
   toggleButton.id = 'toggle-language';
   toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
@@ -163,7 +169,6 @@
   });
 });
 
-  </script>
 
 </body>
 </html>
