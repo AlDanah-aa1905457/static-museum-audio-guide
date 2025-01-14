@@ -34,6 +34,7 @@
     </div>
 
     <script>
+  <script>
   document.addEventListener('DOMContentLoaded', function() {
     const toggleButton = document.createElement('button');
     toggleButton.id = 'toggle-language';
@@ -45,39 +46,20 @@
     sectionTitleContainer.appendChild(toggleButton);
 
     toggleButton.addEventListener('click', function() {
-      // Section Titles
-      const sectionTitleEn = document.getElementById('section-title-en');
-      const sectionTitleAr = document.getElementById('section-title-ar');
+      // Collect all elements that have an English and Arabic version
+      const elementsEn = document.querySelectorAll('[id$="-en"]');
+      const elementsAr = document.querySelectorAll('[id$="-ar"]');
 
-      // Main Titles
-      const titleEn = document.getElementById('audio-title-en');
-      const titleAr = document.getElementById('audio-title-ar');
+      // Determine current language state (assumes initial state is English visible)
+      const isEnglish = Array.from(elementsEn).some(el => el.style.display !== 'none');
 
-      // Additional Titles
-      const titleEnVariable = document.getElementById('title-en');
-      const titleArVariable = document.getElementById('title-ar');
-
-      // Audio Elements
-      const audioEn = document.getElementById('audio-en');
-      const audioAr = document.getElementById('audio-ar');
-
-      // Check current state and toggle all elements
-      const isEnglish = sectionTitleEn.style.display !== 'none';
-
-      // Synchronize Section Titles
-      sectionTitleEn.style.display = isEnglish ? 'none' : 'inline';
-      sectionTitleAr.style.display = isEnglish ? 'inline' : 'none';
-
-      // Synchronize Main Titles
-      titleEn.style.display = isEnglish ? 'none' : 'block';
-      titleAr.style.display = isEnglish ? 'block' : 'none';
-
-      // Synchronize Additional Titles
-      titleEnVariable.style.display = isEnglish ? 'none' : 'block';
-      titleArVariable.style.display = isEnglish ? 'block' : 'none';
-
+      // Toggle display for all English and Arabic elements
+      elementsEn.forEach(el => el.style.display = isEnglish ? 'none' : 'block');
+      elementsAr.forEach(el => el.style.display = isEnglish ? 'block' : 'none');
     });
   });
+</script>
+
 </script>
 
   </body>
