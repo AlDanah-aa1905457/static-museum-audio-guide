@@ -80,7 +80,7 @@
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
+     document.addEventListener('DOMContentLoaded', function() {
     const toggleButton = document.getElementById('toggle-language');
     const titleEn = document.getElementById('audio-title-en');
     const titleAr = document.getElementById('audio-title-ar');
@@ -94,7 +94,9 @@
     jpPlayer.jPlayer({
         ready: function () {
             $(this).jPlayer("setMedia", { mp3: audioPathEn });
-            enablePlayButton(); // Enable the play button on load
+            setTimeout(() => {
+                ensurePlayButtonActive(); // Ensure play button is active after a slight delay
+            }, 100);
         },
         swfPath: "/js",
         supplied: "mp3",
@@ -103,8 +105,8 @@
         volume: 0.8,
     });
 
-    // Function to enable the play button
-    function enablePlayButton() {
+    // Function to ensure the play button is active
+    function ensurePlayButtonActive() {
         const playButton = document.querySelector('.jp-play');
         if (playButton) {
             playButton.removeAttribute('disabled');
@@ -115,7 +117,7 @@
     // Fix: Ensure play button is active after media is loaded
     jpPlayer.on($.jPlayer.event.loadeddata, function () {
         console.log('Audio loaded and ready'); // Debugging
-        enablePlayButton(); // Enable the play button
+        ensurePlayButtonActive();
     });
 
     // Toggle Language
@@ -129,10 +131,11 @@
 
         // Set new audio source without autoplay
         jpPlayer.jPlayer("setMedia", { mp3: newAudioPath }).jPlayer("pause");
-        enablePlayButton(); // Ensure play button is enabled after toggle
+        setTimeout(() => {
+            ensurePlayButtonActive(); // Ensure play button is active after toggling
+        }, 100);
     });
 });
-
     </script>
 
   </body>
