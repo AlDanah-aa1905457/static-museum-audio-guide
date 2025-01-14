@@ -91,75 +91,78 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log("Initializing jPlayer with static audio.");
+   document.addEventListener('DOMContentLoaded', function() {
+  console.log("Initializing jPlayer with static audio.");
 
-      const defaultAudioPath = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
-      const alternateAudioPath = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
+  const defaultAudioPath = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
+  const alternateAudioPath = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
 
-      // Initialize jPlayer with the default (English) audio
-      $("#jquery_jplayer_1").jPlayer({
-        ready: function() {
-          console.log("jPlayer ready. Loading default audio.");
-          $(this).jPlayer("setMedia", {
-            mp3: defaultAudioPath
-          });
-          // Enable the play button
-          $('.jp-controls').css('pointer-events', 'auto');
-          $('.jp-play').prop('disabled', false);
-        },
-        cssSelectorAncestor: "#jp_container_1",
-        swfPath: "{{ site.baseurl }}/js",
-        supplied: "mp3",
-        useStateClassSkin: true,
-        autoBlur: false,
-        smoothPlayBar: true,
-        keyEnabled: true,
-        remainingDuration: true,
-        toggleDuration: true
+  // Initialize jPlayer with the default (English) audio
+  $("#jquery_jplayer_1").jPlayer({
+    ready: function() {
+      console.log("jPlayer ready. Loading default audio.");
+      $(this).jPlayer("setMedia", {
+        mp3: defaultAudioPath
       });
+      $('.jp-controls').css('pointer-events', 'auto');
+      $('.jp-play').prop('disabled', false);
+    },
+    cssSelectorAncestor: "#jp_container_1",
+    swfPath: "{{ site.baseurl }}/js",
+    supplied: "mp3",
+    useStateClassSkin: true,
+    autoBlur: false,
+    smoothPlayBar: true,
+    keyEnabled: true,
+    remainingDuration: true,
+    toggleDuration: true
+  });
 
-      // Language toggle functionality
-      const toggleButton = document.createElement('button');
-      toggleButton.id = 'toggle-language';
-      toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
-      toggleButton.title = 'Toggle Language';
-      toggleButton.innerHTML = '🌐';
+  // Language toggle logic
+  const toggleButton = document.createElement('button');
+  toggleButton.id = 'toggle-language';
+  toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
+  toggleButton.title = 'Toggle Language';
+  toggleButton.innerHTML = '🌐';
 
-      const sectionTitleContainer = document.querySelector('.post-header-section-title');
-      if (sectionTitleContainer) {
-        sectionTitleContainer.appendChild(toggleButton);
-      }
+  const sectionTitleContainer = document.querySelector('.post-header-section-title');
+  if (sectionTitleContainer) {
+    sectionTitleContainer.appendChild(toggleButton);
+  } else {
+    console.error("Element '.post-header-section-title' not found. Appending to '.audio-player' instead.");
+    document.querySelector('.audio-player').appendChild(toggleButton);
+  }
 
-      toggleButton.addEventListener('click', function() {
-        console.log("Language toggle clicked.");
+  toggleButton.addEventListener('click', function() {
+    console.log("Language toggle clicked.");
 
-        const isPlaying = !$("#jquery_jplayer_1").data().jPlayer.status.paused;
-        const currentTime = $("#jquery_jplayer_1").data().jPlayer.status.currentTime;
+    const isPlaying = !$("#jquery_jplayer_1").data().jPlayer.status.paused;
+    const currentTime = $("#jquery_jplayer_1").data().jPlayer.status.currentTime;
 
-        const elementsEn = document.querySelectorAll('[id$="-en"]');
-        const elementsAr = document.querySelectorAll('[id$="-ar"]');
-        const isEnglish = elementsEn[0].style.display !== 'none';
+    const elementsEn = document.querySelectorAll('[id$="-en"]');
+    const elementsAr = document.querySelectorAll('[id$="-ar"]');
+    const isEnglish = elementsEn[0].style.display !== 'none';
 
-        console.log("Switching language. Currently English?", isEnglish);
+    console.log("Switching language. Currently English?", isEnglish);
 
-        // Toggle display between English and Arabic text
-        elementsEn.forEach(el => el.style.display = isEnglish ? 'none' : 'block');
-        elementsAr.forEach(el => el.style.display = isEnglish ? 'block' : 'none');
+    // Toggle display between English and Arabic text
+    elementsEn.forEach(el => el.style.display = isEnglish ? 'none' : 'block');
+    elementsAr.forEach(el => el.style.display = isEnglish ? 'block' : 'none');
 
-        // Set the audio source based on the current language
-        const newAudioPath = isEnglish ? alternateAudioPath : defaultAudioPath;
-        console.log("Switching to audio path:", newAudioPath);
+    // Set the audio source based on the current language
+    const newAudioPath = isEnglish ? alternateAudioPath : defaultAudioPath;
+    console.log("Switching to audio path:", newAudioPath);
 
-        $("#jquery_jplayer_1").jPlayer("setMedia", { mp3: newAudioPath });
+    $("#jquery_jplayer_1").jPlayer("setMedia", { mp3: newAudioPath });
 
-        // Resume playback if it was playing
-        if (isPlaying) {
-          console.log("Resuming audio playback at:", currentTime);
-          $("#jquery_jplayer_1").jPlayer("play", currentTime);
-        }
-      });
-    });
+    // Resume playback if it was playing
+    if (isPlaying) {
+      console.log("Resuming audio playback at:", currentTime);
+      $("#jquery_jplayer_1").jPlayer("play", currentTime);
+    }
+  });
+});
+
   </script>
 
 </body>
