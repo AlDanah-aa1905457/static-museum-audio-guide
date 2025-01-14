@@ -8,9 +8,11 @@
     {% include header-episode.html %}
     
     <div class="slide-menu">
-      <h2 id="section-title-en" style="display: inline;">{{ site.menu_heading_en }}</h2>
-      <h2 id="section-title-ar" style="display: none;">{{ site.menu_heading_ar }}</h2>
-      <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
+      <div style="display: flex; align-items: center;">
+        <h2 id="section-title-en" style="margin: 0; display: inline;">{{ site.menu_heading_en }}</h2>
+        <h2 id="section-title-ar" style="margin: 0; display: none;">{{ site.menu_heading_ar }}</h2>
+        <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
+      </div>
       <ul class="post-list">
         {% assign pages = site.pages | sort: 'page_rank' %}
         {% for my_page in pages %}
