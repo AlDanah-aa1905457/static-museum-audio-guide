@@ -39,13 +39,8 @@
             <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
           </div>
 
-          <!-- Static Initial Audio -->
-          <div id="static-audio" class="jp-jplayer">
-            <audio controls preload="auto">
-              <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
-              Your browser does not support the audio element.
-            </audio>
-          </div>
+          <!-- jPlayer Element -->
+          <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 
           <div class="jp-progress">
             <div class="jp-seek-bar">
@@ -99,6 +94,7 @@
         // Initialize jPlayer with English audio by default
         jpPlayer.jPlayer({
           ready: function () {
+            console.log("Setting default audio: English");
             $(this).jPlayer("setMedia", { mp3: audioPathEn }); // Set English audio as default
           },
           swfPath: "/js",
@@ -118,7 +114,8 @@
           titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
 
           // Set new audio source without autoplay
-          jpPlayer.jPlayer("setMedia", { mp3: newAudioPath });
+          console.log(`Toggling to ${currentLanguage} audio:`, newAudioPath);
+          jpPlayer.jPlayer("setMedia", { mp3: newAudioPath }).jPlayer("pause");
         });
       });
     </script>
