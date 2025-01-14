@@ -29,35 +29,17 @@
       </div>
     </div>
 
-    <!-- Audio Player Section -->
     <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
       <div class="jp-gui jp-interface audio-footer-container" data-role="footer" data-position="fixed" data-tap-toggle="false">
         <div class="audio-player">
-
+          
           <div class="player-now-playing">
             <p id="audio-title-en" style="display: inline;">{{ page.title_en }}</p>
             <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
             <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
           </div>
 
-          <!-- Audio Wrapper for Styling -->
-          <div class="audio-wrapper">
-            <!-- English Audio -->
-            <div id="audio-en" class="audio-file" style="display: block;">
-              <audio class="jp-jplayer" controls>
-                <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-            </div>
-
-            <!-- Arabic Audio -->
-            <div id="audio-ar" class="audio-file" style="display: none;">
-              <audio class="jp-jplayer" controls>
-                <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}" type="audio/mpeg">
-                المتصفح الخاص بك لا يدعم عنصر الصوت.
-              </audio>
-            </div>
-          </div>
+          <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 
           <div class="jp-progress">
             <div class="jp-seek-bar">
@@ -65,8 +47,32 @@
             </div>
           </div>
 
-          <div class="jp-controls">
-            <button class="jp-play" role="button" tabindex="0">Play</button>
+          <div class="player-buttons">
+            <div class="player-buttons-prev">
+              {% for my_page in site.pages %}
+                {% capture page_rank_lower %}{{ my_page.page_rank | plus: 1 }}{% endcapture %}
+                {% capture existing_page_rank %}{{ page.page_rank | plus: 0 }}{% endcapture %}
+                {% if page_rank_lower == existing_page_rank and my_page.page_rank != null %}
+                  <a href="{{ my_page.url | prepend: site.baseurl }}"></a>
+                  <span class="player-buttons-prev-number">{{ my_page.stop_id }}</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <div class="jp-controls" style="display: inline-block; text-align: center;">
+              <button class="jp-play" role="button" tabindex="0" style="display: inline-block;"></button>
+            </div>
+
+            <div class="player-buttons-next">
+              {% for my_page in site.pages %}
+                {% capture page_rank_higher %}{{ my_page.page_rank | minus: 1 }}{% endcapture %}
+                {% capture existing_page_rank %}{{ page.page_rank | plus: 0 }}{% endcapture %}
+                {% if page_rank_higher == existing_page_rank and my_page.page_rank != null %}
+                  <a href="{{ my_page.url | prepend: site.baseurl }}"></a>
+                  <span class="player-buttons-next-number">{{ my_page.stop_id }}</span>
+                {% endif %}
+              {% endfor %}
+            </div>
           </div>
 
         </div>
@@ -78,20 +84,35 @@
         const toggleButton = document.getElementById('toggle-language');
         const titleEn = document.getElementById('audio-title-en');
         const titleAr = document.getElementById('audio-title-ar');
-        const audioEn = document.getElementById('audio-en');
-        const audioAr = document.getElementById('audio-ar');
+        const jpPlayer = $('#jquery_jplayer_1');
+        const audioPathEn = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
+        const audioPathAr = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
+
+        let currentLanguage = 'en';
+
+        // Initialize jPlayer with English audio by default
+        jpPlayer.jPlayer({
+          ready: function () {
+            $(this).jPlayer("setMedia", { mp3: audioPathEn }); // Set English audio as default
+          },
+          swfPath: "/js",
+          supplied: "mp3",
+          cssSelectorAncestor: "#jp_container_1",
+          preload: "auto", // Preload the audio
+          volume: 0.8,
+        });
 
         // Toggle Language
         toggleButton.addEventListener('click', function() {
-          const isEnglish = titleEn.style.display === 'inline';
+          currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+          const newAudioPath = currentLanguage === 'en' ? audioPathEn : audioPathAr;
 
-          // Toggle Titles
-          titleEn.style.display = isEnglish ? 'none' : 'inline';
-          titleAr.style.display = isEnglish ? 'inline' : 'none';
+          // Update Titles
+          titleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
+          titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
 
-          // Toggle Audio
-          audioEn.style.display = isEnglish ? 'none' : 'block';
-          audioAr.style.display = isEnglish ? 'block' : 'none';
+          // Set new audio source without autoplay
+          jpPlayer.jPlayer("setMedia", { mp3: newAudioPath });
         });
       });
     </script>
