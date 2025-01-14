@@ -539,19 +539,31 @@ Audio Player Styling
 .player-now-playing {
     display: block;
     font-size: $player-now-playing-size;
-    line-height: $player-now-playing-size;
-    //height: $player-now-playing-size * 3;
-    //height: auto;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding: 0;
     text-align: center;
-    p {
+
+    #audio-title-en, #audio-title-ar {
         padding-top: $player-now-playing-size / 2;
-        padding-bottom: $player-now-playing-size / 2;;
+        padding-bottom: $player-now-playing-size / 2;
         margin-bottom: 0;
     }
 }
+#audio-en, #audio-ar {
+    margin: 0 auto;
+    display: block;
+    width: 100%; /* Ensure audio elements take full width */
+}
+#toggle-language {
+    background: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+#toggle-language:hover {
+    color: lighten($tile-bgcolor, 10%);
+}
+
 
 .player-buttons {
     height: $player-height;
