@@ -90,7 +90,7 @@
 
         let currentLanguage = 'en';
 
-        // Initialize jPlayer
+        // Initialize jPlayer with English audio by default
         jpPlayer.jPlayer({
           ready: function () {
             $(this).jPlayer("setMedia", { mp3: audioPathEn });
@@ -110,7 +110,7 @@
           titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
 
           // Set new audio source
-          jpPlayer.jPlayer("setMedia", { mp3: newAudioPath });
+          jpPlayer.jPlayer("setMedia", { mp3: newAudioPath }).jPlayer("play");
         });
       });
     </script>
