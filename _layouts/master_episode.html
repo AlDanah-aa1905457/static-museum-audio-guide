@@ -144,7 +144,29 @@
     });
   </script>
 
+  <!-- Play/Pause Button Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const audioPlayer = document.getElementById('audio-player');
+      const playButton = document.querySelector('.jp-play');
+      const pauseButton = document.querySelector('.jp-pause');
 
-  </body>
+      // Play button event
+      playButton.addEventListener('click', function () {
+        audioPlayer.play();
+        playButton.style.display = 'none';
+        pauseButton.style.display = 'inline-block';
+      });
+
+      // Pause button event
+      pauseButton.addEventListener('click', function () {
+        audioPlayer.pause();
+        pauseButton.style.display = 'none';
+        playButton.style.display = 'inline-block';
+      });
+    });
+  </script>
+
+</body>
 
 </html>
