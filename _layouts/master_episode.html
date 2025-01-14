@@ -85,12 +85,12 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Initialize jPlayer
+    // Initialize jPlayer with ready callback
     $("#jquery_jplayer_1").jPlayer({
       ready: function() {
         $(this).jPlayer("setMedia", {
           mp3: "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}"
-        });
+        }).jPlayer("pause"); // Add explicit pause after initialization
       },
       cssSelectorAncestor: "#jp_container_1",
       swfPath: "{{ site.baseurl }}/js",
@@ -100,7 +100,11 @@
       smoothPlayBar: true,
       keyEnabled: true,
       remainingDuration: true,
-      toggleDuration: true
+      toggleDuration: true,
+      preload: 'auto', // Add preload option
+      loadeddata: function() { // Add loadeddata event handler
+        $('.jp-play').removeAttr('disabled').css('pointer-events', 'auto');
+      }
     });
 
     // Language toggle setup and functionality
@@ -115,12 +119,13 @@
       sectionTitleContainer.appendChild(toggleButton);
     }
 
+    // Ensure play button is initially clickable
+    $('.jp-play').removeAttr('disabled').css('pointer-events', 'auto');
+
     toggleButton.addEventListener('click', function() {
-      // Get current playback state and time
       const isPlaying = !$("#jquery_jplayer_1").data().jPlayer.status.paused;
       const currentTime = $("#jquery_jplayer_1").data().jPlayer.status.currentTime;
 
-      // Toggle text elements
       const elementsEn = document.querySelectorAll('[id$="-en"]');
       const elementsAr = document.querySelectorAll('[id$="-ar"]');
       const isEnglish = elementsEn[0].style.display !== 'none';
@@ -128,14 +133,15 @@
       elementsEn.forEach(el => el.style.display = isEnglish ? 'none' : 'block');
       elementsAr.forEach(el => el.style.display = isEnglish ? 'block' : 'none');
 
-      // Switch audio source
       $("#jquery_jplayer_1").jPlayer("setMedia", {
         mp3: isEnglish 
           ? "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}"
           : "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}"
       });
 
-      // Restore playback state and position
+      // Ensure button is clickable after media change
+      $('.jp-play').removeAttr('disabled').css('pointer-events', 'auto');
+
       $("#jquery_jplayer_1").jPlayer("play", currentTime);
       if (!isPlaying) {
         $("#jquery_jplayer_1").jPlayer("pause");
