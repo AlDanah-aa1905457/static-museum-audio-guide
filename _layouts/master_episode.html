@@ -39,10 +39,7 @@
             <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
           </div>
 
-          <audio id="audio-player" controls>
-            <source id="audio-source" src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
-            Your browser does not support the audio element.
-          </audio>
+          <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 
           <div class="jp-progress">
             <div class="jp-seek-bar">
@@ -87,20 +84,33 @@
         const toggleButton = document.getElementById('toggle-language');
         const titleEn = document.getElementById('audio-title-en');
         const titleAr = document.getElementById('audio-title-ar');
-        const audioSource = document.getElementById('audio-source');
-        const audioPlayer = document.getElementById('audio-player');
+        const jpPlayer = $('#jquery_jplayer_1');
+        const audioPathEn = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
+        const audioPathAr = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
 
+        let currentLanguage = 'en';
+
+        // Initialize jPlayer
+        jpPlayer.jPlayer({
+          ready: function () {
+            $(this).jPlayer("setMedia", { mp3: audioPathEn });
+          },
+          swfPath: "/js",
+          supplied: "mp3",
+          cssSelectorAncestor: "#jp_container_1",
+        });
+
+        // Toggle Language
         toggleButton.addEventListener('click', function() {
-          const isEnglish = titleEn.style.display !== 'none';
+          currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+          const newAudioPath = currentLanguage === 'en' ? audioPathEn : audioPathAr;
 
-          titleEn.style.display = isEnglish ? 'none' : 'inline';
-          titleAr.style.display = isEnglish ? 'inline' : 'none';
+          // Update Titles
+          titleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
+          titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
 
-          audioSource.src = isEnglish 
-            ? "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}" 
-            : "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
-
-          audioPlayer.load(); // Reload the audio with the new source
+          // Set new audio source
+          jpPlayer.jPlayer("setMedia", { mp3: newAudioPath });
         });
       });
     </script>
