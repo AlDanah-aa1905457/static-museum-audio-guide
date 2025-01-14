@@ -36,7 +36,6 @@
           <div class="player-now-playing">
             <p id="audio-title-en" style="display: inline;">{{ page.title_en }}</p>
             <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
-            <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
           </div>
 
           <!-- jPlayer Element -->
@@ -82,7 +81,12 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        const toggleButton = document.getElementById('toggle-language');
+        const toggleButton = document.createElement('button');
+    toggleButton.id = 'toggle-language';
+    toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
+    toggleButton.title = 'Toggle Language';
+    toggleButton.innerHTML = '🌐';
+
         const titleEn = document.getElementById('audio-title-en');
         const titleAr = document.getElementById('audio-title-ar');
         const jpPlayer = $('#jquery_jplayer_1');
