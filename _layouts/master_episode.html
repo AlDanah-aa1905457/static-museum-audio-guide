@@ -29,6 +29,14 @@
       </div>
     </div>
 
+    <!-- Static Audio Element -->
+    <div id="episode-element">
+      <audio id="static-audio" controls>
+        <source id="static-source" src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+
     <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
       <div class="jp-gui jp-interface audio-footer-container" data-role="footer" data-position="fixed" data-tap-toggle="false">
         <div class="audio-player">
@@ -38,40 +46,9 @@
             <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
           </div>
 
-          <!-- jPlayer Element -->
-          <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-
           <div class="jp-progress">
             <div class="jp-seek-bar">
               <div class="jp-play-bar"></div>
-            </div>
-          </div>
-
-          <div class="player-buttons">
-            <div class="player-buttons-prev">
-              {% for my_page in site.pages %}
-                {% capture page_rank_lower %}{{ my_page.page_rank | plus: 1 }}{% endcapture %}
-                {% capture existing_page_rank %}{{ page.page_rank | plus: 0 }}{% endcapture %}
-                {% if page_rank_lower == existing_page_rank and my_page.page_rank != null %}
-                  <a href="{{ my_page.url | prepend: site.baseurl }}"></a>
-                  <span class="player-buttons-prev-number">{{ my_page.stop_id }}</span>
-                {% endif %}
-              {% endfor %}
-            </div>
-
-            <div class="jp-controls" style="display: inline-block; text-align: center;">
-              <button class="jp-play" role="button" tabindex="0" style="display: inline-block;"></button>
-            </div>
-
-            <div class="player-buttons-next">
-              {% for my_page in site.pages %}
-                {% capture page_rank_higher %}{{ my_page.page_rank | minus: 1 }}{% endcapture %}
-                {% capture existing_page_rank %}{{ page.page_rank | plus: 0 }}{% endcapture %}
-                {% if page_rank_higher == existing_page_rank and my_page.page_rank != null %}
-                  <a href="{{ my_page.url | prepend: site.baseurl }}"></a>
-                  <span class="player-buttons-next-number">{{ my_page.stop_id }}</span>
-                {% endif %}
-              {% endfor %}
             </div>
           </div>
 
@@ -81,35 +58,30 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
+        // Add toggle button to the title section
+        const titleSection = document.querySelector('.player-now-playing');
         const toggleButton = document.createElement('button');
-    toggleButton.id = 'toggle-language';
-    toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
-    toggleButton.title = 'Toggle Language';
-    toggleButton.innerHTML = '🌐';
+        toggleButton.id = 'toggle-language';
+        toggleButton.style = 'background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;';
+        toggleButton.title = 'Toggle Language';
+        toggleButton.innerHTML = '🌐';
+        titleSection.appendChild(toggleButton);
 
+        // Title and audio elements
         const titleEn = document.getElementById('audio-title-en');
         const titleAr = document.getElementById('audio-title-ar');
-        const jpPlayer = $('#jquery_jplayer_1');
+        const staticAudio = document.getElementById('static-audio');
+        const staticSource = document.getElementById('static-source');
         const audioPathEn = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
         const audioPathAr = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
 
+        // Additional titles (if any)
+        const sectionTitleEn = document.getElementById('section-title-en');
+        const sectionTitleAr = document.getElementById('section-title-ar');
+        const titleEnVariable = document.getElementById('title-en');
+        const titleArVariable = document.getElementById('title-ar');
+
         let currentLanguage = 'en';
-
-       jpPlayer.jPlayer({
-  ready: function () {
-    console.log("Setting default static audio: English");
-    $(this).jPlayer("setMedia", {
-      mp3: "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" // Set English audio as default statically
-    });
-    $(this).jPlayer("play"); // Optional: Autoplay on page load
-  },
-  swfPath: "/js",
-  supplied: "mp3",
-  cssSelectorAncestor: "#jp_container_1",
-  preload: "auto", // Preload the audio for faster playback
-  volume: 0.8,
-});
-
 
         // Toggle Language
         toggleButton.addEventListener('click', function() {
@@ -120,9 +92,20 @@
           titleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
           titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
 
-          // Set new audio source without autoplay
-          console.log(`Toggling to ${currentLanguage} audio:`, newAudioPath);
-          jpPlayer.jPlayer("setMedia", { mp3: newAudioPath }).jPlayer("pause");
+          // Update Additional Titles
+          if (sectionTitleEn && sectionTitleAr) {
+            sectionTitleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
+            sectionTitleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
+          }
+          if (titleEnVariable && titleArVariable) {
+            titleEnVariable.style.display = currentLanguage === 'en' ? 'inline' : 'none';
+            titleArVariable.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
+          }
+
+          // Set new audio source
+          staticSource.src = newAudioPath;
+          staticAudio.load(); // Reload the audio with the new source
+          staticAudio.play(); // Optional: Automatically play after toggling
         });
       });
     </script>
