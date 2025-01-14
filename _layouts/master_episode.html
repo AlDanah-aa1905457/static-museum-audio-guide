@@ -40,10 +40,12 @@
           <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
         </div>
 
+        {% if page.audio_file != null %}
         <div id="jquery_jplayer_1" class="jp-jplayer"></div>
         <div id="episode-element">
           <audio id="audio-player">
             <source id="audio-source" src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
+            Your browser does not support the audio element.
           </audio>
         </div>
 
@@ -68,14 +70,14 @@
                 <a href="{{ my_page.url | prepend: site.baseurl }}">
                   <button class="jp-prev" role="button" tabindex="0">Previous</button>
                 </a>
+                <span class="player-buttons-prev-number">{{ my_page.stop_id }}</span>
               {% endif %}
             {% endfor %}
           </div>
 
-          <!-- Play and Pause Buttons -->
-          <div class="jp-controls" style="text-align: center;">
-            <button class="jp-play" role="button" tabindex="0" style="display: inline-block;">▶</button>
-            <button class="jp-pause" role="button" tabindex="0" style="display: none;">⏸</button>
+          <!-- Play Button -->
+          <div class="jp-controls" style="display: inline-block; text-align: center;">
+            <button class="jp-play" role="button" tabindex="0" style="display: inline-block;"></button>
           </div>
 
           <!-- Next Button -->
@@ -87,32 +89,18 @@
                 <a href="{{ my_page.url | prepend: site.baseurl }}">
                   <button class="jp-next" role="button" tabindex="0">Next</button>
                 </a>
+                <span class="player-buttons-next-number">{{ my_page.stop_id }}</span>
               {% endif %}
             {% endfor %}
           </div>
         </div>
+        {% endif %}
       </div>
     </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const playButton = document.querySelector('.jp-play');
-      const pauseButton = document.querySelector('.jp-pause');
-      const audioPlayer = document.getElementById('audio-player');
-
-      playButton.addEventListener('click', function () {
-        audioPlayer.play();
-        playButton.style.display = 'none';
-        pauseButton.style.display = 'inline-block';
-      });
-
-      pauseButton.addEventListener('click', function () {
-        audioPlayer.pause();
-        pauseButton.style.display = 'none';
-        playButton.style.display = 'inline-block';
-      });
-
       const toggleButton = document.createElement('button');
       toggleButton.id = 'toggle-language';
       toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
@@ -136,7 +124,7 @@
         audioSource.src = isEnglish
           ? '{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}'
           : '{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}';
-        audioPlayer.load();
+        document.getElementById('audio-player').load();
       });
     });
   </script>
