@@ -81,43 +81,42 @@
 
     <script>
     $(function() {
-    const toggleButton = $('#toggle-language');
-    const titleEn = $('#audio-title-en');
-    const titleAr = $('#audio-title-ar');
-    const jpPlayer = $('#jquery_jplayer_1');
-    const audioPathEn = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
-    const audioPathAr = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
+        const toggleButton = $('#toggle-language');
+        const titleEn = $('#audio-title-en');
+        const titleAr = $('#audio-title-ar');
+        const jpPlayer = $('#jquery_jplayer_1');
+        const audioPathEn = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
+        const audioPathAr = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
 
-    let currentLanguage = 'en';
+        let currentLanguage = 'en';
 
-    // Initialize jPlayer with English audio by default
-    jpPlayer.jPlayer({
-        ready: function () {
-            console.log('Initializing jPlayer with English audio');
-            jpPlayer.jPlayer("setMedia", { mp3: audioPathEn }).jPlayer("pause");
-        },
-        swfPath: "/js",
-        supplied: "mp3",
-        cssSelectorAncestor: "#jp_container_1",
-        preload: "metadata",
-        volume: 0.8,
+        // Initialize jPlayer with English audio by default
+        jpPlayer.jPlayer({
+            ready: function () {
+                console.log('Initializing jPlayer with English audio');
+                jpPlayer.jPlayer("setMedia", { mp3: audioPathEn }).jPlayer("pause");
+            },
+            swfPath: "/js",
+            supplied: "mp3",
+            cssSelectorAncestor: "#jp_container_1",
+            preload: "metadata",
+            volume: 0.8,
+        });
+
+        // Toggle Language
+        toggleButton.on('click', function() {
+            currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+            const newAudioPath = currentLanguage === 'en' ? audioPathEn : audioPathAr;
+
+            // Update Titles
+            titleEn.toggle(currentLanguage === 'en');
+            titleAr.toggle(currentLanguage === 'ar');
+
+            // Set new audio source
+            console.log('Toggling language. Setting new audio source:', newAudioPath);
+            jpPlayer.jPlayer("setMedia", { mp3: newAudioPath }).jPlayer("pause");
+        });
     });
-
-    // Toggle Language
-    toggleButton.on('click', function() {
-        currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
-        const newAudioPath = currentLanguage === 'en' ? audioPathEn : audioPathAr;
-
-        // Update Titles
-        titleEn.toggle(currentLanguage === 'en');
-        titleAr.toggle(currentLanguage === 'ar');
-
-        // Set new audio source
-        console.log('Toggling language. Setting new audio source:', newAudioPath);
-        jpPlayer.jPlayer("setMedia", { mp3: newAudioPath }).jPlayer("pause");
-    });
-});
-
     </script>
 
   </body>
