@@ -93,15 +93,14 @@
         // Initialize jPlayer with English audio by default
         jpPlayer.jPlayer({
           ready: function () {
-            $(this).jPlayer("setMedia", { mp3: audioPathEn }); // Load English audio
+            $(this).jPlayer("setMedia", { mp3: audioPathEn }); // Set English audio as default
           },
           swfPath: "/js",
           supplied: "mp3",
           cssSelectorAncestor: "#jp_container_1",
+          preload: "auto", // Preload the audio
+          volume: 0.8,
         });
-
-        // Ensure audio is ready to play
-        jpPlayer.jPlayer("play"); // Load audio for first play
 
         // Toggle Language
         toggleButton.addEventListener('click', function() {
