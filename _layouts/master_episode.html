@@ -40,26 +40,33 @@
             <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
           </div>
 
-          <!-- English Audio -->
-          <div id="audio-en" class="audio-file" style="display: block;">
-            <audio controls>
-              <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
-              Your browser does not support the audio element.
-            </audio>
-          </div>
+          <!-- Audio Wrapper for Styling -->
+          <div class="audio-wrapper">
+            <!-- English Audio -->
+            <div id="audio-en" class="audio-file" style="display: block;">
+              <audio class="jp-jplayer" controls>
+                <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+            </div>
 
-          <!-- Arabic Audio -->
-          <div id="audio-ar" class="audio-file" style="display: none;">
-            <audio controls>
-              <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}" type="audio/mpeg">
-              المتصفح الخاص بك لا يدعم عنصر الصوت.
-            </audio>
+            <!-- Arabic Audio -->
+            <div id="audio-ar" class="audio-file" style="display: none;">
+              <audio class="jp-jplayer" controls>
+                <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}" type="audio/mpeg">
+                المتصفح الخاص بك لا يدعم عنصر الصوت.
+              </audio>
+            </div>
           </div>
 
           <div class="jp-progress">
             <div class="jp-seek-bar">
               <div class="jp-play-bar"></div>
             </div>
+          </div>
+
+          <div class="jp-controls">
+            <button class="jp-play" role="button" tabindex="0">Play</button>
           </div>
 
         </div>
