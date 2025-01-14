@@ -100,6 +100,9 @@
           cssSelectorAncestor: "#jp_container_1",
         });
 
+        // Ensure audio is ready to play
+        jpPlayer.jPlayer("play"); // Load audio for first play
+
         // Toggle Language
         toggleButton.addEventListener('click', function() {
           currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
