@@ -93,16 +93,19 @@
         // Initialize jPlayer with English audio by default
         jpPlayer.jPlayer({
           ready: function () {
-            $(this).jPlayer("setMedia", { mp3: audioPathEn }); // Load English audio
-            setTimeout(() => {
-              $(this).jPlayer("pause"); // Pause after loading, ready for user to click play
-            }, 200); // Small delay to ensure media is fully loaded
+            $(this).jPlayer("setMedia", { mp3: audioPathEn }); // Load English audio by default
           },
           swfPath: "/js",
           supplied: "mp3",
           cssSelectorAncestor: "#jp_container_1",
-          preload: "auto", // Preload the audio
+          preload: "auto",
           volume: 0.8,
+        });
+
+        // Fix: Forcefully trigger jPlayer's play button readiness
+        jpPlayer.on($.jPlayer.event.loadeddata, function () {
+          console.log('Audio loaded and ready'); // Debugging
+          jpPlayer.jPlayer("pause"); // Ensure the player is paused and ready for user click
         });
 
         // Toggle Language
