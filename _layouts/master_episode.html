@@ -94,17 +94,15 @@
         jpPlayer.jPlayer({
           ready: function () {
             $(this).jPlayer("setMedia", { mp3: audioPathEn }); // Load English audio
+            setTimeout(() => {
+              $(this).jPlayer("pause"); // Pause after loading, ready for user to click play
+            }, 200); // Small delay to ensure media is fully loaded
           },
           swfPath: "/js",
           supplied: "mp3",
           cssSelectorAncestor: "#jp_container_1",
-          preload: "auto", // Ensure audio is preloaded
+          preload: "auto", // Preload the audio
           volume: 0.8,
-        });
-
-        // Ensure the play button is clickable on first load
-        jpPlayer.on($.jPlayer.event.setmedia, function () {
-          jpPlayer.jPlayer("pause"); // Make sure it's ready for user click without auto-playing
         });
 
         // Toggle Language
@@ -117,7 +115,7 @@
           titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
 
           // Set new audio source without autoplay
-          jpPlayer.jPlayer("setMedia", { mp3: newAudioPath });
+          jpPlayer.jPlayer("setMedia", { mp3: newAudioPath }).jPlayer("pause");
         });
       });
     </script>
