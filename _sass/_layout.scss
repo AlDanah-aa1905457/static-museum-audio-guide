@@ -517,7 +517,7 @@ Audio Player Styling
 }
 
 .audio-footer-container {
-    background-color: darken($background-darker, 5%);
+    background-color: red;
     bottom: 0;
     left: 0;
     right: 0;
@@ -525,18 +525,3 @@ Audio Player Styling
     width: 100%;
 }
 
-
-.audio-player {
-    padding: 0 0.25em;
-    background: none;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit} * 2));
-    max-width:         calc(#{$content-width} - (#{$spacing-unit} * 2));
-
-}
-
-#audio-en {
-  background-color: lightgray;
-  border: 1px solid #000;
-}
