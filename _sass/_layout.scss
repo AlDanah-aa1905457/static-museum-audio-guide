@@ -512,16 +512,10 @@ Hero images on audio guide stop pages
 Audio Player Styling
 *********************************************/
 
-.jp-audio {
-    position: relative;
-}
-
 .audio-footer-container {
-    background-color: red;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    box-sizing: border-box;
-    width: 100%;
+  background-color: red !important;
+}
+body {
+  background-color: yellow !important;
 }
 
