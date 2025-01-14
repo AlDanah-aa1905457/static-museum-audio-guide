@@ -80,10 +80,10 @@
     </div>
 
     <script>
-     document.addEventListener('DOMContentLoaded', function() {
-    const toggleButton = document.getElementById('toggle-language');
-    const titleEn = document.getElementById('audio-title-en');
-    const titleAr = document.getElementById('audio-title-ar');
+    $(function() {
+    const toggleButton = $('#toggle-language');
+    const titleEn = $('#audio-title-en');
+    const titleAr = $('#audio-title-ar');
     const jpPlayer = $('#jquery_jplayer_1');
     const audioPathEn = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
     const audioPathAr = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
@@ -95,7 +95,6 @@
         ready: function () {
             console.log('Initializing jPlayer with English audio');
             jpPlayer.jPlayer("setMedia", { mp3: audioPathEn }).jPlayer("pause");
-            checkAudioSource(); // Check if the source is properly set
         },
         swfPath: "/js",
         supplied: "mp3",
@@ -104,31 +103,21 @@
         volume: 0.8,
     });
 
-    // Function to check if the audio source is correctly set
-    function checkAudioSource() {
-        const audioElement = document.getElementById('jp_audio_0');
-        if (audioElement && audioElement.src) {
-            console.log('Audio source set:', audioElement.src);
-        } else {
-            console.error('Audio source not set on load');
-        }
-    }
-
     // Toggle Language
-    toggleButton.addEventListener('click', function() {
+    toggleButton.on('click', function() {
         currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
         const newAudioPath = currentLanguage === 'en' ? audioPathEn : audioPathAr;
 
         // Update Titles
-        titleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
-        titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
+        titleEn.toggle(currentLanguage === 'en');
+        titleAr.toggle(currentLanguage === 'ar');
 
         // Set new audio source
         console.log('Toggling language. Setting new audio source:', newAudioPath);
         jpPlayer.jPlayer("setMedia", { mp3: newAudioPath }).jPlayer("pause");
-        checkAudioSource(); // Check source after toggle
     });
 });
+
     </script>
 
   </body>
