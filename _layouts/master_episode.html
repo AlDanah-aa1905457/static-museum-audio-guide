@@ -81,46 +81,58 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        const toggleButton = document.getElementById('toggle-language');
-        const titleEn = document.getElementById('audio-title-en');
-        const titleAr = document.getElementById('audio-title-ar');
-        const jpPlayer = $('#jquery_jplayer_1');
-        const audioPathEn = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
-        const audioPathAr = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
+    const toggleButton = document.getElementById('toggle-language');
+    const titleEn = document.getElementById('audio-title-en');
+    const titleAr = document.getElementById('audio-title-ar');
+    const jpPlayer = $('#jquery_jplayer_1');
+    const audioPathEn = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
+    const audioPathAr = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
 
-        let currentLanguage = 'en';
+    let currentLanguage = 'en';
 
-        // Initialize jPlayer with English audio by default
-        jpPlayer.jPlayer({
-          ready: function () {
-            $(this).jPlayer("setMedia", { mp3: audioPathEn }); // Load English audio by default
-          },
-          swfPath: "/js",
-          supplied: "mp3",
-          cssSelectorAncestor: "#jp_container_1",
-          preload: "auto",
-          volume: 0.8,
-        });
+    // Initialize jPlayer with English audio by default
+    jpPlayer.jPlayer({
+        ready: function () {
+            $(this).jPlayer("setMedia", { mp3: audioPathEn });
+            enablePlayButton(); // Enable the play button on load
+        },
+        swfPath: "/js",
+        supplied: "mp3",
+        cssSelectorAncestor: "#jp_container_1",
+        preload: "auto",
+        volume: 0.8,
+    });
 
-        // Fix: Forcefully trigger jPlayer's play button readiness
-        jpPlayer.on($.jPlayer.event.loadeddata, function () {
-          console.log('Audio loaded and ready'); // Debugging
-          jpPlayer.jPlayer("pause"); // Ensure the player is paused and ready for user click
-        });
+    // Function to enable the play button
+    function enablePlayButton() {
+        const playButton = document.querySelector('.jp-play');
+        if (playButton) {
+            playButton.removeAttribute('disabled');
+            playButton.style.pointerEvents = 'auto'; // Ensure the button is clickable
+        }
+    }
 
-        // Toggle Language
-        toggleButton.addEventListener('click', function() {
-          currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
-          const newAudioPath = currentLanguage === 'en' ? audioPathEn : audioPathAr;
+    // Fix: Ensure play button is active after media is loaded
+    jpPlayer.on($.jPlayer.event.loadeddata, function () {
+        console.log('Audio loaded and ready'); // Debugging
+        enablePlayButton(); // Enable the play button
+    });
 
-          // Update Titles
-          titleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
-          titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
+    // Toggle Language
+    toggleButton.addEventListener('click', function() {
+        currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
+        const newAudioPath = currentLanguage === 'en' ? audioPathEn : audioPathAr;
 
-          // Set new audio source without autoplay
-          jpPlayer.jPlayer("setMedia", { mp3: newAudioPath }).jPlayer("pause");
-        });
-      });
+        // Update Titles
+        titleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
+        titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
+
+        // Set new audio source without autoplay
+        jpPlayer.jPlayer("setMedia", { mp3: newAudioPath }).jPlayer("pause");
+        enablePlayButton(); // Ensure play button is enabled after toggle
+    });
+});
+
     </script>
 
   </body>
