@@ -8,11 +8,7 @@
     {% include header-episode.html %}
     
     <div class="slide-menu">
-      <div style="display: flex; align-items: center;">
-        <h2 id="section-title-en" style="margin: 0; display: inline;">{{ site.menu_heading_en }}</h2>
-        <h2 id="section-title-ar" style="margin: 0; display: none;">{{ site.menu_heading_ar }}</h2>
-        <button id="toggle-language" style="background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;" title="Toggle Language">🌐</button>
-      </div>
+      <h2>{{ site.menu_heading }}</h2>
       <ul class="post-list">
         {% assign pages = site.pages | sort: 'page_rank' %}
         {% for my_page in pages %}
@@ -39,43 +35,29 @@
         <div class="audio-player">
 
           <div class="player-now-playing">
-            <p id="audio-title-en" style="display: inline;">{{ page.title_en }}</p>
+            <p id="audio-title-en">{{ page.title_en }}</p>
             <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
           </div>
 
-          <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+          <!-- English Audio -->
+          <div id="audio-en">
+            <audio controls>
+              <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+
+          <!-- Arabic Audio -->
+          <div id="audio-ar" style="display: none;">
+            <audio controls>
+              <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}" type="audio/mpeg">
+              المتصفح الخاص بك لا يدعم عنصر الصوت.
+            </audio>
+          </div>
 
           <div class="jp-progress">
             <div class="jp-seek-bar">
               <div class="jp-play-bar"></div>
-            </div>
-          </div>
-
-          <div class="player-buttons">
-            <div class="player-buttons-prev">
-              {% for my_page in site.pages %}
-                {% capture page_rank_lower %}{{ my_page.page_rank | plus: 1 }}{% endcapture %}
-                {% capture existing_page_rank %}{{ page.page_rank | plus: 0 }}{% endcapture %}
-                {% if page_rank_lower == existing_page_rank and my_page.page_rank != null %}
-                  <a href="{{ my_page.url | prepend: site.baseurl }}"></a>
-                  <span class="player-buttons-prev-number">{{ my_page.stop_id }}</span>
-                {% endif %}
-              {% endfor %}
-            </div>
-
-            <div class="jp-controls" style="display: inline-block; text-align: center;">
-              <button class="jp-play" role="button" tabindex="0" style="display: inline-block;"></button>
-            </div>
-
-            <div class="player-buttons-next">
-              {% for my_page in site.pages %}
-                {% capture page_rank_higher %}{{ my_page.page_rank | minus: 1 }}{% endcapture %}
-                {% capture existing_page_rank %}{{ page.page_rank | plus: 0 }}{% endcapture %}
-                {% if page_rank_higher == existing_page_rank and my_page.page_rank != null %}
-                  <a href="{{ my_page.url | prepend: site.baseurl }}"></a>
-                  <span class="player-buttons-next-number">{{ my_page.stop_id }}</span>
-                {% endif %}
-              {% endfor %}
             </div>
           </div>
 
@@ -84,48 +66,54 @@
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const toggleButton = document.getElementById('toggle-language');
-        const sectionTitleEn = document.getElementById('section-title-en');
-        const sectionTitleAr = document.getElementById('section-title-ar');
-        const titleEn = document.getElementById('audio-title-en');
-        const titleAr = document.getElementById('audio-title-ar');
-        const jpPlayer = $('#jquery_jplayer_1');
-        const audioPathEn = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
-        const audioPathAr = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.createElement('button');
+    toggleButton.id = 'toggle-language';
+    toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
+    toggleButton.title = 'Toggle Language';
+    toggleButton.innerHTML = '🌐';
 
-        let currentLanguage = 'en';
+    const sectionTitleContainer = document.querySelector('.post-header-section-title');
+    sectionTitleContainer.appendChild(toggleButton);
 
-        // Initialize jPlayer with English audio by default
-        jpPlayer.jPlayer({
-          ready: function () {
-            $(this).jPlayer("setMedia", { mp3: audioPathEn });
-          },
-          swfPath: "/js",
-          supplied: "mp3",
-          cssSelectorAncestor: "#jp_container_1",
-          preload: "auto",
-          volume: 0.8,
-        });
+    toggleButton.addEventListener('click', function() {
+      // Section Titles
+      const sectionTitleEn = document.getElementById('section-title-en');
+      const sectionTitleAr = document.getElementById('section-title-ar');
 
-        // Toggle Language
-        toggleButton.addEventListener('click', function() {
-          currentLanguage = currentLanguage === 'en' ? 'ar' : 'en';
-          const newAudioPath = currentLanguage === 'en' ? audioPathEn : audioPathAr;
+      // Main Titles
+      const titleEn = document.getElementById('audio-title-en');
+      const titleAr = document.getElementById('audio-title-ar');
 
-          // Update Section Titles
-          sectionTitleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
-          sectionTitleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
+      // Additional Titles
+      const titleEnVariable = document.getElementById('title-en');
+      const titleArVariable = document.getElementById('title-ar');
 
-          // Update Audio Titles
-          titleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
-          titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
+      // Audio Elements
+      const audioEn = document.getElementById('audio-en');
+      const audioAr = document.getElementById('audio-ar');
 
-          // Update Audio Source
-          jpPlayer.jPlayer("setMedia", { mp3: newAudioPath });
-        });
-      });
-    </script>
+      // Check current state and toggle all elements
+      const isEnglish = sectionTitleEn.style.display !== 'none';
+
+      // Synchronize Section Titles
+      sectionTitleEn.style.display = isEnglish ? 'none' : 'inline';
+      sectionTitleAr.style.display = isEnglish ? 'inline' : 'none';
+
+      // Synchronize Main Titles
+      titleEn.style.display = isEnglish ? 'none' : 'block';
+      titleAr.style.display = isEnglish ? 'block' : 'none';
+
+      // Synchronize Additional Titles
+      titleEnVariable.style.display = isEnglish ? 'none' : 'block';
+      titleArVariable.style.display = isEnglish ? 'block' : 'none';
+
+      // Synchronize Audio
+      audioEn.style.display = isEnglish ? 'none' : 'block';
+      audioAr.style.display = isEnglish ? 'block' : 'none';
+    });
+  });
+</script>
 
   </body>
 
