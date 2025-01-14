@@ -91,18 +91,21 @@
 
         let currentLanguage = 'en';
 
-        // Initialize jPlayer with English audio by default
-        jpPlayer.jPlayer({
-          ready: function () {
-            console.log("Setting default audio: English");
-            $(this).jPlayer("setMedia", { mp3: audioPathEn }); // Set English audio as default
-          },
-          swfPath: "/js",
-          supplied: "mp3",
-          cssSelectorAncestor: "#jp_container_1",
-          preload: "auto", // Preload the audio
-          volume: 0.8,
-        });
+       jpPlayer.jPlayer({
+  ready: function () {
+    console.log("Setting default static audio: English");
+    $(this).jPlayer("setMedia", {
+      mp3: "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" // Set English audio as default statically
+    });
+    $(this).jPlayer("play"); // Optional: Autoplay on page load
+  },
+  swfPath: "/js",
+  supplied: "mp3",
+  cssSelectorAncestor: "#jp_container_1",
+  preload: "auto", // Preload the audio for faster playback
+  volume: 0.8,
+});
+
 
         // Toggle Language
         toggleButton.addEventListener('click', function() {
