@@ -39,23 +39,7 @@
             <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
           </div>
 
-          {% if page.audio_file != null %}
-            <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-            <div id="episode-element">
-              <audio>
-                <source id="episode-source" src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file }}" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-            </div>
-          {% else %}
-            <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-            <div id="episode-element">
-              <audio>
-                <source id="episode-source" src="{{ site.baseurl }}/path-to-static-audio/static-audio-en.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-            </div>
-          {% endif %}
+          <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 
           <div class="jp-progress">
             <div class="jp-seek-bar">
@@ -106,18 +90,15 @@
 
         let currentLanguage = 'en';
 
-        // Initialize jPlayer with default audio
-        const defaultAudioPath = "{{ site.baseurl }}/path-to-static-audio/static-audio-en.mp3";
-        const initialAudio = page.audio_file ? audioPathEn : defaultAudioPath;
-
+        // Initialize jPlayer with English audio by default
         jpPlayer.jPlayer({
           ready: function () {
-            $(this).jPlayer("setMedia", { mp3: initialAudio });
+            $(this).jPlayer("setMedia", { mp3: audioPathEn }); // Set English audio as default
           },
           swfPath: "/js",
           supplied: "mp3",
           cssSelectorAncestor: "#jp_container_1",
-          preload: "auto",
+          preload: "auto", // Preload the audio
           volume: 0.8,
         });
 
@@ -130,7 +111,7 @@
           titleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
           titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
 
-          // Set new audio source
+          // Set new audio source without autoplay
           jpPlayer.jPlayer("setMedia", { mp3: newAudioPath });
         });
       });
