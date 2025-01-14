@@ -44,12 +44,7 @@
           <div class="player-now-playing">
             <p id="audio-title-en" style="display: inline;">{{ page.title_en }}</p>
             <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
-          </div>
-
-          <div class="jp-progress">
-            <div class="jp-seek-bar">
-              <div class="jp-play-bar"></div>
-            </div>
+            <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
           </div>
 
         </div>
@@ -58,28 +53,13 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // Add toggle button to the title section
-        const titleSection = document.querySelector('.player-now-playing');
-        const toggleButton = document.createElement('button');
-        toggleButton.id = 'toggle-language';
-        toggleButton.style = 'background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;';
-        toggleButton.title = 'Toggle Language';
-        toggleButton.innerHTML = '🌐';
-        titleSection.appendChild(toggleButton);
-
-        // Title and audio elements
+        const toggleButton = document.getElementById('toggle-language');
         const titleEn = document.getElementById('audio-title-en');
         const titleAr = document.getElementById('audio-title-ar');
         const staticAudio = document.getElementById('static-audio');
         const staticSource = document.getElementById('static-source');
         const audioPathEn = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
         const audioPathAr = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}";
-
-        // Additional titles (if any)
-        const sectionTitleEn = document.getElementById('section-title-en');
-        const sectionTitleAr = document.getElementById('section-title-ar');
-        const titleEnVariable = document.getElementById('title-en');
-        const titleArVariable = document.getElementById('title-ar');
 
         let currentLanguage = 'en';
 
@@ -92,16 +72,6 @@
           titleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
           titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
 
-          // Update Additional Titles
-          if (sectionTitleEn && sectionTitleAr) {
-            sectionTitleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
-            sectionTitleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
-          }
-          if (titleEnVariable && titleArVariable) {
-            titleEnVariable.style.display = currentLanguage === 'en' ? 'inline' : 'none';
-            titleArVariable.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
-          }
-
           // Set new audio source
           staticSource.src = newAudioPath;
           staticAudio.load(); // Reload the audio with the new source
@@ -111,5 +81,8 @@
     </script>
 
   </body>
+
+</html>
+
 
 </html>
