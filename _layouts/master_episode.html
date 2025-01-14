@@ -29,17 +29,15 @@
       </div>
     </div>
 
-    <!-- Audio Player Section -->
     <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
       <div class="jp-gui jp-interface audio-footer-container" data-role="footer" data-position="fixed" data-tap-toggle="false">
         <div class="audio-player">
-
+          
           <div class="player-now-playing">
             <p id="audio-title-en">{{ page.title_en }}</p>
             <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
           </div>
 
-          <!-- English Audio -->
           <div id="audio-en">
             <audio controls>
               <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
@@ -47,7 +45,6 @@
             </audio>
           </div>
 
-          <!-- Arabic Audio -->
           <div id="audio-ar" style="display: none;">
             <audio controls>
               <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}" type="audio/mpeg">
@@ -61,59 +58,69 @@
             </div>
           </div>
 
+          <div class="player-buttons">
+            <div class="player-buttons-prev">
+              {% for my_page in site.pages %}
+                {% capture page_rank_lower %}{{ my_page.page_rank | plus: 1 }}{% endcapture %}
+                {% capture existing_page_rank %}{{ page.page_rank | plus: 0 }}{% endcapture %}
+                {% if page_rank_lower == existing_page_rank and my_page.page_rank != null %}
+                  <a href="{{ my_page.url | prepend: site.baseurl }}"></a>
+                  <span class="player-buttons-prev-number">{{ my_page.stop_id }}</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <div class="jp-controls" style="display: inline-block; text-align: center;">
+              <button class="jp-play" role="button" tabindex="0" style="display: inline-block;"></button>
+            </div>
+
+            <div class="player-buttons-next">
+              {% for my_page in site.pages %}
+                {% capture page_rank_higher %}{{ my_page.page_rank | minus: 1 }}{% endcapture %}
+                {% capture existing_page_rank %}{{ page.page_rank | plus: 0 }}{% endcapture %}
+                {% if page_rank_higher == existing_page_rank and my_page.page_rank != null %}
+                  <a href="{{ my_page.url | prepend: site.baseurl }}"></a>
+                  <span class="player-buttons-next-number">{{ my_page.stop_id }}</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
 
     <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const toggleButton = document.createElement('button');
-    toggleButton.id = 'toggle-language';
-    toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
-    toggleButton.title = 'Toggle Language';
-    toggleButton.innerHTML = '🌐';
+      document.addEventListener('DOMContentLoaded', function() {
+        const toggleButton = document.createElement('button');
+        toggleButton.id = 'toggle-language';
+        toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
+        toggleButton.title = 'Toggle Language';
+        toggleButton.innerHTML = '🌐';
 
-    const sectionTitleContainer = document.querySelector('.post-header-section-title');
-    sectionTitleContainer.appendChild(toggleButton);
+        const sectionTitleContainer = document.querySelector('.player-now-playing');
+        sectionTitleContainer.appendChild(toggleButton);
 
-    toggleButton.addEventListener('click', function() {
-      // Section Titles
-      const sectionTitleEn = document.getElementById('section-title-en');
-      const sectionTitleAr = document.getElementById('section-title-ar');
+        toggleButton.addEventListener('click', function() {
+          // Section Titles
+          const titleEn = document.getElementById('audio-title-en');
+          const titleAr = document.getElementById('audio-title-ar');
 
-      // Main Titles
-      const titleEn = document.getElementById('audio-title-en');
-      const titleAr = document.getElementById('audio-title-ar');
+          // Audio Elements
+          const audioEn = document.getElementById('audio-en');
+          const audioAr = document.getElementById('audio-ar');
 
-      // Additional Titles
-      const titleEnVariable = document.getElementById('title-en');
-      const titleArVariable = document.getElementById('title-ar');
+          // Check current state and toggle all elements
+          const isEnglish = titleEn.style.display !== 'none';
 
-      // Audio Elements
-      const audioEn = document.getElementById('audio-en');
-      const audioAr = document.getElementById('audio-ar');
+          titleEn.style.display = isEnglish ? 'none' : 'block';
+          titleAr.style.display = isEnglish ? 'block' : 'none';
 
-      // Check current state and toggle all elements
-      const isEnglish = sectionTitleEn.style.display !== 'none';
-
-      // Synchronize Section Titles
-      sectionTitleEn.style.display = isEnglish ? 'none' : 'inline';
-      sectionTitleAr.style.display = isEnglish ? 'inline' : 'none';
-
-      // Synchronize Main Titles
-      titleEn.style.display = isEnglish ? 'none' : 'block';
-      titleAr.style.display = isEnglish ? 'block' : 'none';
-
-      // Synchronize Additional Titles
-      titleEnVariable.style.display = isEnglish ? 'none' : 'block';
-      titleArVariable.style.display = isEnglish ? 'block' : 'none';
-
-      // Synchronize Audio
-      audioEn.style.display = isEnglish ? 'none' : 'block';
-      audioAr.style.display = isEnglish ? 'block' : 'none';
-    });
-  });
-</script>
+          audioEn.style.display = isEnglish ? 'none' : 'block';
+          audioAr.style.display = isEnglish ? 'block' : 'none';
+        });
+      });
+    </script>
 
   </body>
 
