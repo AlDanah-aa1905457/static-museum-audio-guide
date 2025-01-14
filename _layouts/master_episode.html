@@ -39,6 +39,13 @@
       </div>
 
       <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+      <div id="episode-element">
+        <!-- Static audio element for initialization -->
+        <audio id="initial-audio">
+          <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
 
       <div class="jp-progress">
         <div class="jp-seek-bar">
@@ -85,28 +92,30 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Wait for a brief moment to ensure DOM is fully ready
-    setTimeout(function() {
-      $("#jquery_jplayer_1").jPlayer({
-        ready: function() {
-          $(this).jPlayer("setMedia", {
-            mp3: "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}"
-          });
-        },
-        cssSelectorAncestor: "#jp_container_1",
-        swfPath: "{{ site.baseurl }}/js",
-        supplied: "mp3",
-        useStateClassSkin: true,
-        autoBlur: false,
-        smoothPlayBar: true,
-        keyEnabled: true,
-        remainingDuration: true,
-        toggleDuration: true,
-        preload: 'metadata' // Changed from 'auto' to 'metadata'
-      });
-    }, 100);
+    // Initialize with static English audio
+    const defaultAudioPath = "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}";
+    
+    $("#jquery_jplayer_1").jPlayer({
+      ready: function() {
+        $(this).jPlayer("setMedia", {
+          mp3: defaultAudioPath
+        });
+        // Enable controls after initialization
+        $('.jp-controls').css('pointer-events', 'auto');
+        $('.jp-play').prop('disabled', false);
+      },
+      cssSelectorAncestor: "#jp_container_1",
+      swfPath: "{{ site.baseurl }}/js",
+      supplied: "mp3",
+      useStateClassSkin: true,
+      autoBlur: false,
+      smoothPlayBar: true,
+      keyEnabled: true,
+      remainingDuration: true,
+      toggleDuration: true
+    });
 
-    // Rest of your language toggle code remains the same...
+    // Language toggle setup
     const toggleButton = document.createElement('button');
     toggleButton.id = 'toggle-language';
     toggleButton.style = 'background: none; border: none; font-size: 25px; cursor: pointer; margin-left: auto;';
@@ -129,12 +138,14 @@
       elementsEn.forEach(el => el.style.display = isEnglish ? 'none' : 'block');
       elementsAr.forEach(el => el.style.display = isEnglish ? 'block' : 'none');
 
+      // Switch audio source
       $("#jquery_jplayer_1").jPlayer("setMedia", {
         mp3: isEnglish 
           ? "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_ar }}"
           : "{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}"
       });
 
+      // Only play if it was playing before
       if (isPlaying) {
         $("#jquery_jplayer_1").jPlayer("play", currentTime);
       }
