@@ -39,7 +39,13 @@
             <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
           </div>
 
-          <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+          <!-- Static Initial Audio -->
+          <div id="static-audio" class="jp-jplayer">
+            <audio controls preload="auto">
+              <source src="{{ site.baseurl }}{{ site.audio_path }}{{ page.audio_file_en }}" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
 
           <div class="jp-progress">
             <div class="jp-seek-bar">
