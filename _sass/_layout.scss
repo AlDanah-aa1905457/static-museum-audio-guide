@@ -512,147 +512,62 @@ Hero images on audio guide stop pages
 Audio Player Styling
 *********************************************/
 
+#audio-title-en, #audio-title-ar {
+  font-size: $player-now-playing-size;
+  line-height: $player-now-playing-size;
+  text-align: center;
+  margin: 0;
+  padding: 0.5em 0;
+  color: lighten($brand-color, 10%);
+}
+
+#audio-en, #audio-ar {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 512px;
+  display: block;
+}
+
 .jp-audio {
-    position: relative;
+  position: relative;
+  background-color: darken($background-darker, 5%);
+  padding: 1em 0;
 }
-
-.audio-footer-container {
-    background-color: darken($background-darker, 5%);
-    bottom: 0;
-    left: 0;
-    right: 0;
-    box-sizing: border-box;
-    width: 100%;
-}
-
 
 .audio-player {
-    padding: 0 0.25em;
-    background: none;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit} * 2));
-    max-width:         calc(#{$content-width} - (#{$spacing-unit} * 2));
-
+  padding: 0 0.25em;
+  background: none;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit} * 2));
+  max-width: calc(#{$content-width} - (#{$spacing-unit} * 2));
 }
 
 .player-now-playing {
-    display: block;
-    font-size: $player-now-playing-size;
-    line-height: $player-now-playing-size;
-    //height: $player-now-playing-size * 3;
-    //height: auto;
-    margin-top: 0;
+  display: block;
+  font-size: $player-now-playing-size;
+  line-height: $player-now-playing-size;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  text-align: center;
+  p {
+    padding-top: $player-now-playing-size / 2;
+    padding-bottom: $player-now-playing-size / 2;
     margin-bottom: 0;
-    padding: 0;
-    text-align: center;
-    p {
-        padding-top: $player-now-playing-size / 2;
-        padding-bottom: $player-now-playing-size / 2;;
-        margin-bottom: 0;
-    }
+  }
 }
-
-.player-buttons {
-    height: $player-height;
-    overflow: hidden;
-    position: relative;
-    text-align: center;
-    margin-top: 6px;
-    .player-buttons-prev-number {
-        float: right;
-        line-height: $player-button-size;
-        vertical-align: top;
-        color: $player-bgcolor;
-    }
-    .player-buttons-next-number {
-        float: left;
-        line-height: $player-button-size;
-        vertical-align: top;
-        color: $player-bgcolor;
-    }
-    .player-buttons-prev {
-        display: inline-block;
-        text-align: left;
-        position: absolute;
-        left: 0;
-        a {
-            background: url('../img/icons/button_prev.svg');
-            background-size: $player-button-size;
-            width: $player-button-size;
-            height: $player-button-size;
-
-            display: inline-block;
-            line-height: $player-height;
-            margin: 0;
-            padding: 0;
-            z-index: 10000;
-        }
-    }
-
-    .player-buttons-next {
-        display: inline-block;
-        text-align: right;
-        position: absolute;
-        right: 0;
-        a {
-            background: url('../img/icons/button_next.svg');
-            background-size: $player-button-size;
-            width: $player-button-size;
-            height: $player-button-size;
-
-            display: inline-block;
-            line-height: $player-height;
-            margin: 0;
-            padding: 0;
-            text-align: right;
-            z-index: 10000;            
-        }
-    }
-}
-
-// jPlayer
-// Progress bar
 
 .jp-progress {
-    width: 100%;
-    height: $player-progress-height;
-    margin: 0 0 0 0;
-    border-radius: 3px;
-    background-color: $player-loaded-color;
+  width: 100%;
+  height: $player-progress-height;
+  margin: 0 0 0 0;
+  border-radius: 3px;
+  background-color: $player-loaded-color;
 }
 
-// Progress bar -- how much has played so far
-.jp-play-bar {
-    height: $player-progress-height;
-    border-radius: 3px;
-    background-color: $player-progress-color;
-}
-
-.jp-controls button.jp-play {
-    background: none;
-    width: $player-button-size;
-    height: $player-button-size;
-    background: url('../img/icons/button_play.svg');
-    background-size: 44px;
-    border: 2px solid #aaaaaa !important;
-    border-radius: 32px !important;
-    &:hover {
-        border-color: $player-bgcolor !important;
-    }
-}
-
-.jp-state-playing button.jp-play {
-    background: url('../img/icons/button_pause.svg');
-    background-size: $player-button-size;
-    background-size: 44px;
-}
-
-
-
-// Fallback audio element styling -- just for use if you're using the default HTML5 audio element with controls
-
-audio {
-    margin: 0 auto;
-    display: block;
+.jp-progress .jp-seek-bar .jp-play-bar {
+  height: $player-progress-height;
+  border-radius: 3px;
+  background-color: $player-progress-color;
 }
