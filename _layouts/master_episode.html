@@ -8,7 +8,9 @@
     {% include header-episode.html %}
     
     <div class="slide-menu">
-      <h2>{{ site.menu_heading }}</h2>
+      <h2 id="section-title-en" style="display: inline;">{{ site.menu_heading_en }}</h2>
+      <h2 id="section-title-ar" style="display: none;">{{ site.menu_heading_ar }}</h2>
+      <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
       <ul class="post-list">
         {% assign pages = site.pages | sort: 'page_rank' %}
         {% for my_page in pages %}
@@ -36,7 +38,6 @@
           <div class="player-now-playing">
             <p id="audio-title-en" style="display: inline;">{{ page.title_en }}</p>
             <p id="audio-title-ar" style="display: none;">{{ page.title_ar }}</p>
-            <button id="toggle-language" style="background: none; border: none; font-size: 20px; cursor: pointer; margin-left: 10px;" title="Toggle Language">🌐</button>
           </div>
 
           <div id="jquery_jplayer_1" class="jp-jplayer"></div>
@@ -82,6 +83,8 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const toggleButton = document.getElementById('toggle-language');
+        const sectionTitleEn = document.getElementById('section-title-en');
+        const sectionTitleAr = document.getElementById('section-title-ar');
         const titleEn = document.getElementById('audio-title-en');
         const titleAr = document.getElementById('audio-title-ar');
         const jpPlayer = $('#jquery_jplayer_1');
@@ -93,12 +96,12 @@
         // Initialize jPlayer with English audio by default
         jpPlayer.jPlayer({
           ready: function () {
-            $(this).jPlayer("setMedia", { mp3: audioPathEn }); // Set English audio as default
+            $(this).jPlayer("setMedia", { mp3: audioPathEn });
           },
           swfPath: "/js",
           supplied: "mp3",
           cssSelectorAncestor: "#jp_container_1",
-          preload: "auto", // Preload the audio
+          preload: "auto",
           volume: 0.8,
         });
 
@@ -108,6 +111,8 @@
           const newAudioPath = currentLanguage === 'en' ? audioPathEn : audioPathAr;
 
           // Update Titles
+          sectionTitleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
+          sectionTitleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
           titleEn.style.display = currentLanguage === 'en' ? 'inline' : 'none';
           titleAr.style.display = currentLanguage === 'ar' ? 'inline' : 'none';
 
